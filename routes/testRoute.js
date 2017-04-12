@@ -21,7 +21,7 @@ router.post('/createWorkout', function(req, res){
   var value1 = req.body.value1;
   var value2 = req.body.value2;
 
-  var Workout = new Workout({
+  var newWorkout = new Workout({
     workoutName: workoutTitle,
     athleteName: athleteName,
     workoutMetrics: [
@@ -36,15 +36,17 @@ router.post('/createWorkout', function(req, res){
     ]
   })
 
-  Workout.save(function(err, activityNew){
+  newWorkout.save(function(err, workoutNew){
     if (err) {
       console.log('error has occur: ',  err)
     } else {
       console.log('Nice, you created a file')
-      console.log(Workout);
+      console.log(workoutNew);
     }
-  }
-
-  res.json(Workout.metricsObject)
+  }).then(() => {
+    var metrics = newWorkout.metricsObject;
+    console.log('Metrics', (metrics.split * 2.23))
+    res.send(newWorkout.metricsObject)
+  })
 });
 module.exports = router;
