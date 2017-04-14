@@ -16,6 +16,7 @@ import {
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
 
+import AutoSuggest from 'react-native-autocomplete-input'
 var weight = t.refinement(t.Number, function (n) { return n > 0; });
 
 weight.getValidationErrorMessage = function (value, path, context) {
@@ -44,6 +45,8 @@ export default class TeamManager extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      str: "",
+      query: "",
       value: {
         name: "",
         split1: "",
@@ -75,7 +78,29 @@ export default class TeamManager extends Component {
         })
       }
   }
+  _filterData(value){
+    console.log(value);
+    if (value === "") {
+      return [];
+    }
+    var len = value.length;
+    var final = false;
+    var store = ['Mazaira', 'James', 'Julian', 'CF150']
+    var filtered = store.filter((str) => {
+      if (str === value) {
+        final = true;
+      }
+      return value.toLowerCase() === str.substring(0, len).toLowerCase();
+    })
+    if (final) {
+      return [];
+    }
+    return filtered;
+  }
   render() {
+
+    const {query} = this.state;
+    const data = this._filterData(query)
     return (
       <View style={styles.container}>
         <Text style = {{fontSize: 25, fontWeight: '700', color: '#323232', marginTop: 20}}>Post a Workout </Text>
@@ -85,6 +110,16 @@ export default class TeamManager extends Component {
           options = {options}
           onChange = {this.onChange.bind(this)}
           value = {this.state.value}
+        />
+        <AutoSuggest style={{width: 300, height: 50}}
+          data={data}
+          defaultValue = {query}
+          onChangeText = {text => this.setState({query: text})}
+          renderItem={data => (
+            <TouchableHighlight onPress={() => this.setState({query: data})}>
+              <Text>{data}</Text>
+            </TouchableHighlight>
+          )}
         />
         <TouchableHighlight style={styles.button} onPress={this.onPress.bind(this)} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Save</Text>
