@@ -105,21 +105,12 @@ export default class TeamManager extends Component {
           onChange = {this.onChange.bind(this)}
           value = {this.state.value}
         />
-<<<<<<< HEAD
-        <AutoSuggest style ={{width: 300, height: 50}}
-          data={data}
-          defaultValue={query}
-          onChangeText={text => this.setState({ query: text })}
-          renderItem={data => (
-            <TouchableHighlight onPress={() => this.setState({ query: data })}>
-=======
         <AutoSuggest style={{width: 300, height: 50}}
           data={data}
           defaultValue = {query}
           onChangeText = {text => this.setState({query: text})}
           renderItem={data => (
             <TouchableHighlight onPress={() => this.setState({query: data})}>
->>>>>>> dd9282614f0ff019c50320119ed7fb714a361a10
               <Text>{data}</Text>
             </TouchableHighlight>
           )}
