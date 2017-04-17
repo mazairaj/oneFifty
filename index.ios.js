@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component, PropTypes } from 'react';
 import {
   AppRegistry,
@@ -15,6 +9,8 @@ import {
 
 var t = require('tcomb-form-native');
 var Form = t.form.Form;
+
+import AutoSuggest from 'react-native-autocomplete-input'
 
 var weight = t.refinement(t.Number, function (n) { return n > 0; });
 
@@ -44,6 +40,7 @@ export default class TeamManager extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      query: "",
       value: {
         name: "",
         split1: "",
@@ -75,7 +72,13 @@ export default class TeamManager extends Component {
         })
       }
   }
+  _filterData(value){
+    var data = ["Mazaira", "Derek", "CF150"]
+    return this.state.query
+  }
   render() {
+    const { query } = this.state;
+    const data = this._filterData(query)
     return (
       <View style={styles.container}>
         <Text style = {{fontSize: 25, fontWeight: '700', color: '#323232', marginTop: 20}}>Post a Workout </Text>
@@ -85,6 +88,16 @@ export default class TeamManager extends Component {
           options = {options}
           onChange = {this.onChange.bind(this)}
           value = {this.state.value}
+        />
+        <AutoSuggest style ={{width: 300, height: 50}}
+          data={data}
+          defaultValue={query}
+          onChangeText={text => this.setState({ query: text })}
+          renderItem={data => (
+            <TouchableHighlight onPress={() => this.setState({ query: data })}>
+              <Text>{data}</Text>
+            </TouchableHighlight>
+          )}
         />
         <TouchableHighlight style={styles.button} onPress={this.onPress.bind(this)} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Save</Text>

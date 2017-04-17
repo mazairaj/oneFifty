@@ -108,7 +108,7 @@ router.post('/postworkout', function(req, res){
         } else {
           var index;
           rows.forEach(function(rowData, i) {
-            
+
             if (rowData.name === data.name) {
               console.log(rowData.name)
               index = i
@@ -230,16 +230,11 @@ router.post('/createWorkout', function(req, res){
       console.log('Nice, you created a file')
       console.log(workoutNew);
     }
-<<<<<<< HEAD
+
   }).then(() => {
     var metrics = newWorkout.metricsObject;
     console.log('Metrics', (metrics.split * 2.23))
     res.send(newWorkout.metricsObject)
   })
-=======
-  })
-
-  res.json(newWorkout.metricsObject)
->>>>>>> bf803dc3d15e24f559238fff8ba86327e107e1e0
 });
 module.exports = router;
