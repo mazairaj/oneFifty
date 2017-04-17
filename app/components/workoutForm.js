@@ -1,3 +1,9 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ * @flow
+ */
+
 import React, { Component, PropTypes } from 'react';
 import {
   AppRegistry,
@@ -11,7 +17,6 @@ var t = require('tcomb-form-native');
 var Form = t.form.Form;
 
 import AutoSuggest from 'react-native-autocomplete-input'
-
 var weight = t.refinement(t.Number, function (n) { return n > 0; });
 
 weight.getValidationErrorMessage = function (value, path, context) {
@@ -40,6 +45,7 @@ export default class TeamManager extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      str: "",
       query: "",
       value: {
         name: "",
@@ -105,21 +111,12 @@ export default class TeamManager extends Component {
           onChange = {this.onChange.bind(this)}
           value = {this.state.value}
         />
-<<<<<<< HEAD
-        <AutoSuggest style ={{width: 300, height: 50}}
-          data={data}
-          defaultValue={query}
-          onChangeText={text => this.setState({ query: text })}
-          renderItem={data => (
-            <TouchableHighlight onPress={() => this.setState({ query: data })}>
-=======
         <AutoSuggest style={{width: 300, height: 50}}
           data={data}
           defaultValue = {query}
           onChangeText = {text => this.setState({query: text})}
           renderItem={data => (
             <TouchableHighlight onPress={() => this.setState({query: data})}>
->>>>>>> dd9282614f0ff019c50320119ed7fb714a361a10
               <Text>{data}</Text>
             </TouchableHighlight>
           )}
