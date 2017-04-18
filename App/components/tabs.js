@@ -50,6 +50,7 @@ class ApplicationTabs extends Component {
 		console.log("TABS PROPS", this.props)
 		return (
 			<TabBarIOS
+				itemPositioning='auto'
 				unselectedTintColor='black'
 				tintColor='black'
 				unselectedItemTintColor="gray"

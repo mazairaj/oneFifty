@@ -9,7 +9,7 @@ const tabs = {
   routes: [
     { key: 'messageBoard', icon: require('../../assets/image/chat.png'), title: '' },
     { key: 'calandar', icon: require('../../assets/image/chat.png'), title: '' },
-		{ key: 'workoutHistory', icon: require('../../assets/image/workoutHistorys.png'), title: '' },
+		{ key: 'workoutHistory', icon: require('../../assets/image/workoutHistory.png'), title: '' },
   ],
   key: 'ApplicationTabs',
   index: 0
