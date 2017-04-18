@@ -1,4 +1,4 @@
-import { View, Text, TabBarIOS, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TabBarIOS, TouchableOpacity } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { actions as navigationActions } from 'react-native-navigation-redux-helpers';
@@ -19,13 +19,13 @@ class ApplicationTabs extends Component {
 
 		if (tab.key === 'calandar') {
 			return (
-				<WorkoutForm />
+				<View style={[styles.tabContent, {backgroundColor: 'green'}]} />
 			);
 		}
 
 		if (tab.key === 'workoutHistory') {
 			return (
-				<WorkoutForm />
+				<View style={[styles.tabContent, {backgroundColor: 'red'}]} />
 			);
 		}
 
@@ -36,6 +36,7 @@ class ApplicationTabs extends Component {
 	render() {
 		const { dispatch, navigation, indexPage } = this.props;
 		const children = navigation.routes.map( (tab, i) => {
+			console.log("IN TABS", tab)
 			return (
 				<TabBarIOS.Item key={tab.key}
 						icon={tab.icon}
@@ -46,7 +47,7 @@ class ApplicationTabs extends Component {
 				</TabBarIOS.Item>
 			);
 		});
-
+		console.log("TABS PROPS", this.props)
 		return (
 			<TabBarIOS
 				unselectedTintColor='black'
@@ -59,10 +60,10 @@ class ApplicationTabs extends Component {
 	}
 }
 
-ApplicationTabs.propTypes = {
-    onPress: PropTypes.func.isRequired,
-    profile: PropTypes.object.isRequired
-};
+// ApplicationTabs.propTypes = {
+//     onPress: PropTypes.func.isRequired,
+//     profile: PropTypes.object.isRequired
+// };
 
 function mapDispatchToProps(dispatch) {
 	return {
@@ -75,4 +76,20 @@ function mapStateToProps(state) {
 		navigation: state.get('tabs'),
 	};
 }
+
+const styles =  StyleSheet.create({
+	tabContent: {
+		flex: 1,
+		alignItems: 'center'
+	},
+	tabText: {
+		color: 'white',
+		margin: 50,
+	},
+	toolbar: {
+		backgroundColor: '#E9EAED',
+		height: 56,
+	}
+});
+
 export default connect(mapStateToProps, mapDispatchToProps)(ApplicationTabs);

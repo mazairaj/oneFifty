@@ -24,8 +24,7 @@ class TeamManager extends Component {
     console.log("Props", this.props)
     return(
       <View style={styles.wrapper}>
-        <Text style = {styles.text}> Message Board </Text>
-        <Tabs/>
+        <Tabs />
       </View>
     )
   }
