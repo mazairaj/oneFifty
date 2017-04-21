@@ -28,7 +28,7 @@ var Workout = t.struct({
   split2: t.String,
   split3: t.String,
   weight: weight,
-  timeStart: t.Date
+  date: t.Date
 })
 
 var options = {
@@ -61,22 +61,44 @@ export default class TeamManager extends Component {
   }
 
   onPress() {
-    console.log("Pressed")
     var value = this.refs.form.getValue();
+    var date = new Date(value.date);
+    date = date.toDateString()
+    console.log(date)
+    var metricNames = Object.keys(value)
+    metricNames = metricNames.slice(1, (metricNames.length - 2))
+    var metricObjects = metricNames.map((metric) => {
+      return {name: metric, value: value[metric]}
+    })
+
     this.setState({value: {weight: 150}});
     if(value) {
       var copy = Object.assign({}, value);
 
-      fetch("http://localhost:8080/postworkout", {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            workoutData: copy
-          })
+      // fetch("http://localhost:8080/postWorkoutSpreadsheet", {
+      //     method: 'POST',
+      //     headers: {
+      //       "Content-Type": "application/json"
+      //     },
+      //     body: JSON.stringify({
+      //       workoutData: copy
+      //     })
+      //   })
+      fetch("http://localhost:8080/postWorkoutMongo",{
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: copy.name,
+          workoutName: "PlaceHolder",
+          date: date,
+          weight: copy.weight,
+          metricObjects: metricObjects
+
         })
-      }
+      })
+    }
   }
   _filterData(value){
     console.log(value);

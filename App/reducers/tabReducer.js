@@ -8,8 +8,8 @@ import { tabReducer } from 'react-native-navigation-redux-helpers';
 const tabs = {
   routes: [
     { key: 'messageBoard', icon: require('../../assets/image/chat.png'), title: '' },
-    { key: 'calandar', icon: require('../../assets/image/chat.png'), title: '' },
-		{ key: 'workoutHistory', icon: require('../../assets/image/workoutHistory.png'), title: '' },
+    { key: 'calandar', icon: require('../../assets/image/calandar.png'), title: '' },
+		{ key: 'workoutHistory', icon: require('../../assets/image/workouthistory.png'), title: '' },
   ],
   key: 'ApplicationTabs',
   index: 0

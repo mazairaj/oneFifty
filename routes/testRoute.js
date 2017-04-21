@@ -76,7 +76,7 @@ var addRowData = function(){
 }
 
 
-router.post('/postworkout', function(req, res){
+router.post('/postWorkoutSpreadsheet', function(req, res){
   var data = req.body.workoutData
   console.log("This is REQd", req.body)
   async.series([
@@ -111,14 +111,13 @@ router.post('/postworkout', function(req, res){
 
             if (rowData.name === data.name) {
               console.log(rowData.name)
-              index = i
+              index = i;
             }
-
-            if (index) {
-              console.log("IN Index")
-              rows[index].del()
-            }
+            rows[i].save();
           });
+          if (index) {
+            rows[index].del();
+          }
         }
         console.log("Rows", rows)
         callback(null, 'callback')
@@ -138,6 +137,7 @@ router.post('/postworkout', function(req, res){
           console.log(err)
         } else {
           console.log("added Row", rows)
+          console.log("Done")
           callback(null, 'callback')
         }
       })

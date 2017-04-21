@@ -8,18 +8,21 @@ const { jumpTo } = navigationActions;
 // import CreateEvent from './createEvent';
 // import Notifications from './notifications';
 // import MessageIndex from './messageIndex';
-import WorkoutForm from './workoutForm'
+import WorkoutForm from './workoutForm';
+import WorkoutCalendar from './workoutCalendar';
+import TeamPage from './teamPage'
+
 class ApplicationTabs extends Component {
 	_renderTabContent(tab) {
 		if (tab.key === 'messageBoard') {
 			return (
-				<WorkoutForm />
+				<TeamPage />
 			);
 		}
 
 		if (tab.key === 'calandar') {
 			return (
-				<View style={[styles.tabContent, {backgroundColor: 'green'}]} />
+				<WorkoutCalendar />
 			);
 		}
 

@@ -13,6 +13,8 @@ var connect = process.env.MONGODB_URI;
 mongoose.connect(connect);
 
 var testRoute = require('./routes/testRoute');
+var calendarRoute = require('./routes/calendarRoute');
+var workoutRoute = require('./routes/workoutRoute');
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true}));
@@ -20,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 
 app.use('/', testRoute);
+app.use('/', calendarRoute);
+app.use('/', workoutRoute);
 
 var port = process.env.PORT || 8080;
 http.listen(port, function() {
