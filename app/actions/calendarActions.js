@@ -1,4 +1,4 @@
-export function selectDay(dateSelect, nextDate, prevDate) {
+export function selectDay(dateSelect, nextDate, prevDate, bool) {
   return dispatch => {
     fetch("http://localhost:8080/selectDay", {
       method: 'POST',
@@ -15,13 +15,14 @@ export function selectDay(dateSelect, nextDate, prevDate) {
       console.log(response)
       return response.json()})
     .then((responseJson) => {
-      console.log("Res", responseJson)
       var workouts = {
         ...responseJson
       }
-      console.log("CALEDAR ACTIONS", workouts)
       var day = new Date(dateSelect)
       dispatch(populateWorkouts(workouts, day))
+      if (bool){
+        return dispatch(initalOrder(workouts))
+      }
     })
     .catch((err) => {
       console.log('error in populatedWorkouts -> ', err)
@@ -42,5 +43,25 @@ export function toggleDateClickFalse(){
   return {
     type: "TOGGLE_CLICK_FALSE",
     dateClicked: false
+  }
+}
+export function cycleOrder(currOrder, bool){
+  var copy = [...currOrder];
+  if (bool) {
+    var end = copy.pop();
+    copy.unshift(end)
+  } else  {
+    var start = copy.shift();
+    copy.push(start)
+  }
+  return {
+    type: "CYCLE",
+    currOrder: copy
+  }
+}
+export function initialOrder(object){
+  return {
+    type: "INITIAL",
+    currOrder: [object.prevDateObj, object.dateSelect, object.nextDate]
   }
 }

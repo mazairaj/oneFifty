@@ -8,7 +8,8 @@ export default function selectDay(state = {
   date: date.toDateString(),
   dateClicked: false,
   teamWorkoutDates: [],
-  individualWorkoutDates: []
+  individualWorkoutDates: [],
+  currOrder: [[],[],[]]
 }, action) {
     switch(action.type) {
       case "POPULATE_WORKOUTS":
@@ -21,6 +22,14 @@ export default function selectDay(state = {
       return Object.assign({}, state, {
         dateClicked: false
       })
+      case "Cycle":
+        return Object.assign({}, state,{
+          currOrder: [...action.currOrder]
+        })
+      case: "INITIAL":
+        return Object.assign({}, state, {
+          currOrder: [...action.currOrder]
+        })
       default:
         return state;
     }
