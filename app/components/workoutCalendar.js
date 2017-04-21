@@ -21,7 +21,7 @@ class WorkoutCalendar extends Component {
   constructor(props) {
     super(props);
   }
-  onDateSelect(date, bool) {
+  onDateSelect(date) {
     const {actions} = this.props
     var dateSelect = new Date(date)
     var nextDate = new Date(date);
@@ -29,7 +29,7 @@ class WorkoutCalendar extends Component {
     nextDate.setDate(dateSelect.getDate()+1);
     prevDate.setDate(dateSelect.getDate()-1);
     console.log(dateSelect.toDateString(), nextDate.toDateString(), prevDate.toDateString())
-    actions.selectDay(dateSelect.toDateString(), nextDate.toDateString(), prevDate.toDateString(), bool);
+    actions.selectDay(dateSelect.toDateString(), nextDate.toDateString(), prevDate.toDateString());
   }
   getDay(date, offset){
     var day = date.getDay() + offset;
@@ -48,8 +48,8 @@ class WorkoutCalendar extends Component {
     var newDate = new Date(calendarState.date)
     newDate.setDate(calendarState.date.getDate()-1)
     console.log(newDate)
-    this.onDateSelect(newDate, false)
-    actions.cycleOrder(calendarState.currOrder, false)
+    this.onDateSelect(newDate)
+
 
   }
   onSwipeLeft(gestureState) {
@@ -58,8 +58,8 @@ class WorkoutCalendar extends Component {
     var newDate = new Date(calendarState.date)
     newDate.setDate(calendarState.date.getDate()+1)
     console.log(newDate)
-    this.onDateSelect(newDate, false))
-    actions.cycleOrder(calendarState.currOrder, true)
+    this.onDateSelect(newDate)
+
   }
   onSwipe(gestureName, gestureState) {
   const {SWIPE_UP, SWIPE_DOWN, SWIPE_LEFT, SWIPE_RIGHT} = swipeDirections;
@@ -83,9 +83,9 @@ class WorkoutCalendar extends Component {
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
-    const dataSource = ds.cloneWithRows(calendarState.currOrder[1])
-    const dataSourcePrev = ds.cloneWithRows(calendarState.currOrder[0])
-    const dataSourceNext = ds.cloneWithRows(calendarState.currOrder[2])
+    const dataSource = ds.cloneWithRows(calendarState.populatedWorkouts.dateSelect)
+    const dataSourcePrev = ds.cloneWithRows(calendarState.populatedWorkouts.prevDateObj)
+    const dataSourceNext = ds.cloneWithRows(calendarState.populatedWorkouts.nextDateObj)
     return(
       <View style={{flex: 1}}>
       <View style = {{flex:1}}>
@@ -100,7 +100,7 @@ class WorkoutCalendar extends Component {
             eventDates={['2017-04-01']}       // Optional array of moment() parseable dates that will show an event indicator
             events={[{date:'2017-04-01'}]}// Optional array of event objects with a date property and custom styles for the event indicator
             nextButtonText={'Next'}           // Text for next button. Default: 'Next'
-            onDateSelect={(date) => this.onDateSelect(date, true)} // Callback after date selection
+            onDateSelect={(date) => this.onDateSelect(date)} // Callback after date selection
             onSwipeNext={this.onSwipeNext}    // Callback for forward swipe event
             onSwipePrev={this.onSwipePrev}    // Callback for back swipe event
             onTouchNext={this.onTouchNext}    // Callback for next touch event

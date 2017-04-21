@@ -20,9 +20,6 @@ export function selectDay(dateSelect, nextDate, prevDate, bool) {
       }
       var day = new Date(dateSelect)
       dispatch(populateWorkouts(workouts, day))
-      if (bool){
-        return dispatch(initalOrder(workouts))
-      }
     })
     .catch((err) => {
       console.log('error in populatedWorkouts -> ', err)

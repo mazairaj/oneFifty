@@ -26,7 +26,7 @@ export default function selectDay(state = {
         return Object.assign({}, state,{
           currOrder: [...action.currOrder]
         })
-      case: "INITIAL":
+      case "INITIAL":
         return Object.assign({}, state, {
           currOrder: [...action.currOrder]
         })
