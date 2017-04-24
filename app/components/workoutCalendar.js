@@ -18,19 +18,22 @@ const dates = [null];
 const date = new Date();
 
 class WorkoutCalendar extends Component {
+  swiper = Object;
   constructor(props) {
     super(props);
+    this.state = {
+      index: 1
+    }
   }
-  onDateSelect(date, bool) {
+
+// Action called when date is selected on the calandar
+  onDateSelect(date) {
     const {actions} = this.props
     var dateSelect = new Date(date)
-    var nextDate = new Date(date);
-    var prevDate = new Date(date);
-    nextDate.setDate(dateSelect.getDate()+1);
-    prevDate.setDate(dateSelect.getDate()-1);
-    console.log(dateSelect.toDateString(), nextDate.toDateString(), prevDate.toDateString())
-    actions.selectDay(dateSelect.toDateString(), nextDate.toDateString(), prevDate.toDateString(), bool);
+    // console.log(dateSelect.toDateString(), nextDate.toDateString(), prevDate.toDateString())
+    actions.selectDay(dateSelect);
   }
+// Used to get day of week as string
   getDay(date, offset){
     var day = date.getDay() + offset;
     if (day === 7) {
@@ -42,37 +45,40 @@ class WorkoutCalendar extends Component {
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     return days[day]
   }
-  onSwipeRight(gestureState) {
-    console.log("Right", gestureState);
-    const {calendarState, actions} = this.props
-    var newDate = new Date(calendarState.date)
-    newDate.setDate(calendarState.date.getDate()-1)
-    console.log(newDate)
-    this.onDateSelect(newDate, false)
-    actions.cycleOrder(calendarState.currOrder, false)
+  componentDidMount() {
+    // console.log("Props", this.props)
+    const { actions, calendarState } = this.props;
+    var date = calendarState.date.toDateString();
+    var month = date.slice(4,7);
+    actions.getMonthData(month)
+  }
+  componentWillUnmount(){
+    const { actions, calendarState } = this.props;
+    if (calendarState.dateClicked) {
+      actions.toggleDateClickFalse();
+    }
+  }
+  _onMomentumScrollEnd(evt, state, context) {
+    const { actions, calendarState } = this.props;
+    var index = this.swiper.state.index;
+    var prevIndex =  calendarState.populatedWorkouts[3];
+    var offset;
+    if (index - prevIndex === 1) {
+      offset = 1;
+    } else if (index - prevIndex === -1) {
+      offset = -1
+    } else if (index === 0 && prevIndex === 2){
+      offset = 1
+    } else if (index === 2 && prevIndex === 0) {
+      offset = -1
+    }
 
+    var date = calendarState.date;
+    date.setDate(date.getDate() + offset);
+    actions.swipeDate(date, index)
   }
-  onSwipeLeft(gestureState) {
-    console.log("Left", gestureState);
-    const {calendarState, actions} = this.props
-    var newDate = new Date(calendarState.date)
-    newDate.setDate(calendarState.date.getDate()+1)
-    console.log(newDate)
-    this.onDateSelect(newDate, false))
-    actions.cycleOrder(calendarState.currOrder, true)
-  }
-  onSwipe(gestureName, gestureState) {
-  const {SWIPE_UP, SWIPE_DOWN, SWIPE_LEFT, SWIPE_RIGHT} = swipeDirections;
-  this.setState({gestureName: gestureName});
-  switch (gestureName) {
-    case SWIPE_LEFT:
-      break;
-    case SWIPE_RIGHT:
-      break;
-  }
-}
-  _onMomentumScrollEnd(date) {
-
+  monthSwipeRight(){
+    console.log(this.props)
   }
   render(){
     const {actions, calendarState} = this.props
@@ -80,12 +86,15 @@ class WorkoutCalendar extends Component {
       velocityThreshold: 0.15,
       directionalOffsetThreshold: 20
     };
+    console.log("CS", calendarState)
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-    const dataSource = ds.cloneWithRows(calendarState.currOrder[1])
-    const dataSourcePrev = ds.cloneWithRows(calendarState.currOrder[0])
-    const dataSourceNext = ds.cloneWithRows(calendarState.currOrder[2])
+    var date = calendarState.orderDates[1];
+    var datePrev = calendarState.orderDates[0];
+    var dateNext = calendarState.orderDates[2];
+    const dataSource = ds.cloneWithRows(calendarState.populatedWorkouts[1])
+    const dataSourcePrev = ds.cloneWithRows(calendarState.populatedWorkouts[0])
+    const dataSourceNext = ds.cloneWithRows(calendarState.populatedWorkouts[2])
     return(
       <View style={{flex: 1}}>
       <View style = {{flex:1}}>
@@ -100,8 +109,10 @@ class WorkoutCalendar extends Component {
             eventDates={['2017-04-01']}       // Optional array of moment() parseable dates that will show an event indicator
             events={[{date:'2017-04-01'}]}// Optional array of event objects with a date property and custom styles for the event indicator
             nextButtonText={'Next'}           // Text for next button. Default: 'Next'
-            onDateSelect={(date) => this.onDateSelect(date, true)} // Callback after date selection
-            onSwipeNext={this.onSwipeNext}    // Callback for forward swipe event
+            onDateSelect={(date) => this.onDateSelect(date)} // Callback after date selection
+            onSwipeNext={() => {
+              this.monthSwipeRight();
+              this.onSwipeNext}}    // Callback for forward swipe event
             onSwipePrev={this.onSwipePrev}    // Callback for back swipe event
             onTouchNext={this.onTouchNext}    // Callback for next touch event
             onTouchPrev={this.onTouchPrev}    // Callback for prev touch event<Image source={require('./my-icon.png')} />
@@ -125,12 +136,8 @@ class WorkoutCalendar extends Component {
                  showsPagination = {false}
                  index = {1}
                  onMomentumScrollEnd={this._onMomentumScrollEnd.bind(this)}
+                 ref={component => this.swiper = component}
                  >
-                 <GestureRecognizer
-                  onSwipeLeft={(state) => this.onSwipeLeft(state)}
-                  onSwipeRight={(state) => this.onSwipeRight(state)}
-                  config={config}
-                  >
                  <View style= {styles.overlay}>
               <Card>
               <Content
@@ -138,8 +145,8 @@ class WorkoutCalendar extends Component {
                 <CardItem header>
                 <Left>
                   <View>
-                    <Text style={{fontWeight: 'bold', fontSize: 20}}>{calendarState.date.getDate()-1}</Text>
-                    <Text>{this.getDay(calendarState.date, -1)}</Text>
+                    <Text style={{fontWeight: 'bold', fontSize: 20}}>{datePrev.date}</Text>
+                    <Text>{datePrev.day}</Text>
                   </View>
                 </Left>
                 </CardItem>
@@ -171,12 +178,6 @@ class WorkoutCalendar extends Component {
               </Content>
               </Card>
               </View>
-              </GestureRecognizer>
-              <GestureRecognizer
-               onSwipeLeft={(state) => this.onSwipeLeft(state)}
-               onSwipeRight={(state) => this.onSwipeRight(state)}
-               config={config}
-               >
               <View
                 style= {styles.overlay}>
               <Card>
@@ -185,8 +186,8 @@ class WorkoutCalendar extends Component {
                 <CardItem header>
                 <Left>
                   <View>
-                    <Text style={{fontWeight: 'bold', fontSize: 20}}>{calendarState.date.getDate()}</Text>
-                    <Text>{this.getDay(calendarState.date, 0)}</Text>
+                    <Text style={{fontWeight: 'bold', fontSize: 20}}>{date.date}</Text>
+                    <Text>{date.day}</Text>
                   </View>
                 </Left>
                 </CardItem>
@@ -218,12 +219,6 @@ class WorkoutCalendar extends Component {
                 </Content>
               </Card>
               </View>
-              </GestureRecognizer>
-              <GestureRecognizer
-               onSwipeLeft={(state) => this.onSwipeLeft(state)}
-               onSwipeRight={(state) => this.onSwipeRight(state)}
-               config={config}
-               >
               <View
                 style= {styles.overlay}>
               <Card>
@@ -232,8 +227,8 @@ class WorkoutCalendar extends Component {
                 <CardItem header>
                 <Left>
                   <View>
-                    <Text style={{fontWeight: 'bold', fontSize: 20}}>{calendarState.date.getDate()+1}</Text>
-                    <Text>{this.getDay(calendarState.date, 1)}</Text>
+                    <Text style={{fontWeight: 'bold', fontSize: 20}}>{dateNext.date}</Text>
+                    <Text>{dateNext.day}</Text>
                   </View>
                 </Left>
                 </CardItem>
@@ -265,7 +260,6 @@ class WorkoutCalendar extends Component {
               </Content>
               </Card>
               </View>
-              </GestureRecognizer>
               </Swiper>
             </View>) : null}
       </View>

@@ -1,43 +1,20 @@
-export function selectDay(dateSelect, nextDate, prevDate, bool) {
-  return dispatch => {
-    fetch("http://localhost:8080/selectDay", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        date: dateSelect,
-        prevDate: prevDate,
-        nextDate: nextDate
-      })
-    })
-    .then((response) => {
-      console.log(response)
-      return response.json()})
-    .then((responseJson) => {
-      var workouts = {
-        ...responseJson
-      }
-      var day = new Date(dateSelect)
-      dispatch(populateWorkouts(workouts, day))
-      if (bool){
-        return dispatch(initalOrder(workouts))
-      }
-    })
-    .catch((err) => {
-      console.log('error in populatedWorkouts -> ', err)
-    });
-  };
-}
-
-function populateWorkouts(workouts, date) {
-  console.log("actions", workouts, date)
+export function selectDay(date) {
   return {
-        type: 'POPULATE_WORKOUTS',
-        workouts: workouts,
-        date: date,
-        dateClicked: true
-    };
+    type: "POPULATE_WORKOUTS",
+    date: date,
+    dayOfMonth: date.getDate()
+  }
+}
+export function swipeDate(date, index) {
+  console.log("Did something")
+  var day = date.getDate();
+  console.log(date, day, index)
+  return {
+    type: "CYCLE",
+    date: date,
+    dayOfMonth: day,
+    index: index
+  }
 }
 export function toggleDateClickFalse(){
   return {
@@ -45,23 +22,33 @@ export function toggleDateClickFalse(){
     dateClicked: false
   }
 }
-export function cycleOrder(currOrder, bool){
-  var copy = [...currOrder];
-  if (bool) {
-    var end = copy.pop();
-    copy.unshift(end)
-  } else  {
-    var start = copy.shift();
-    copy.push(start)
-  }
-  return {
-    type: "CYCLE",
-    currOrder: copy
-  }
+export function getMonthData(month){
+  return dispatch => {
+    fetch("http://localhost:8080/getMonth", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        month: month
+      })
+    })
+    .then((response) => {
+      return response.json()})
+    .then((responseJson) => {
+      var workouts = responseJson
+      console.log("This is the one to look at", workouts)
+      dispatch(populateMonthData(workouts))
+    })
+    .catch((err) => {
+      console.log('error in populatedWorkouts -> ', err)
+    });
+  };
 }
-export function initialOrder(object){
+function populateMonthData(workouts) {
+  console.log("actions", workouts)
   return {
-    type: "INITIAL",
-    currOrder: [object.prevDateObj, object.dateSelect, object.nextDate]
-  }
+        type: 'POPULATE_MONTH_DATA',
+        workouts: workouts
+    };
 }

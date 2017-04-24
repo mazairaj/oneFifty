@@ -14,7 +14,7 @@
     "http": "0.0.0",
     "immutable": "^3.8.1",
     "mongoose": "^4.9.3",
-    "native-base": "^2.0.12",
+    "native-base": "^2.1.0",
     "path": "^0.12.7",
     "react": "^15.5.4",
     "react-native": "^0.42.3",

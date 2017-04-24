@@ -1,20 +1,34 @@
 const date = new Date()
+var getDay = function(date, offset){
+  var day = date.getDay() + offset;
+  if (day === 7) {
+    day = 0
+  }
+  if (day === -1) {
+    day = 6
+  }
+  var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+  return days[day]
+}
 export default function selectDay(state = {
-  populatedWorkouts: {
-    dateSelect: [],
-    prevDateObj: [],
-    nextDateObj: []
-  },
-  date: date.toDateString(),
+  populatedWorkouts: [[],[],[]],
+  orderDates:[{},{},{}],
+  date: date,
   dateClicked: false,
   teamWorkoutDates: [],
   individualWorkoutDates: [],
-  currOrder: [[],[],[]]
+  monthWorkouts: new Array(31)
 }, action) {
     switch(action.type) {
       case "POPULATE_WORKOUTS":
+      var day = action.dayOfMonth;
+      var monthData = state.monthWorkouts;
+      var currDate = monthData[day - 1];
+      var prevDate = monthData[day -2];
+      var nextDate = monthData[day]
         return Object.assign({}, state, {
-          populatedWorkouts: action.workouts,
+          populatedWorkouts: [prevDate, currDate, nextDate, 1],
+          orderDates: [{date: day - 1, day:getDay(action.date, -1) }, {date: day, day: getDay(action.date, 0)}, {date: day +1, day:getDay(action.date, 1) }],
           date: action.date,
           dateClicked: true
         })
@@ -22,13 +36,33 @@ export default function selectDay(state = {
       return Object.assign({}, state, {
         dateClicked: false
       })
-      case "Cycle":
+      case "CYCLE":
+      var index = action.index
+      var day = action.dayOfMonth;
+      var monthData = state.monthWorkouts;
+      var currDate = monthData[day - 1];
+      var prevDate = monthData[day -2];
+      var nextDate = monthData[day]
+      var currOrder;
+      var orderDates;
+      if (index == 2) {
+        currOrder = [nextDate, prevDate, currDate, 2]
+        orderDates = [{date: day + 1, day: getDay(action.date, + 1) }, {date: day - 1, day: getDay(action.date, - 1)}, {date: day , day:getDay(action.date, 0) }]
+      } else if (index === 1) {
+        currOrder = [prevDate, currDate, nextDate, 1]
+        orderDates = [{date: day - 1, day: getDay(action.date, -1) }, {date: day, day: getDay(action.date, 0)}, {date: day +1, day:getDay(action.date, 1) }]
+      } else if (index == 0) {
+        currOrder = [currDate, nextDate, prevDate, 0]
+        orderDates = [{date: day, day:getDay(action.date, 0) }, {date: day + 1, day: getDay(action.date, 1)}, {date: day - 1, day:getDay(action.date, -1) }]
+      }
         return Object.assign({}, state,{
-          currOrder: [...action.currOrder]
+          populatedWorkouts: [...currOrder],
+          orderDates: [...orderDates],
+          date: action.date
         })
-      case: "INITIAL":
+      case "POPULATE_MONTH_DATA":
         return Object.assign({}, state, {
-          currOrder: [...action.currOrder]
+          monthWorkouts: [...action.workouts]
         })
       default:
         return state;
