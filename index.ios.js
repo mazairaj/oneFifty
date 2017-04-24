@@ -1,4 +1,4 @@
 const { AppRegistry } = require('react-native');
-const TeamManager = require('./app/index');
+const TeamManager = require('./App/index');
 
 AppRegistry.registerComponent('TeamManager', TeamManager);
