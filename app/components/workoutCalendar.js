@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Container, Content, Card, CardItem, Right, Left, Thumbnail, List, ListItem, Body, Header, Badge, Button} from 'native-base';
 import { Icon } from 'react-native-elements'
 import Calendar from 'react-native-calendar'
-import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import Swiper from 'react-native-swiper';
 
 import { bindActionCreators } from 'redux';
@@ -21,21 +20,7 @@ class WorkoutCalendar extends Component {
   swiper = Object;
   constructor(props) {
     super(props);
-    this.state = {
-      index: 1
-    }
   }
-<<<<<<< HEAD
-  onDateSelect(date) {
-    const {actions} = this.props
-    var dateSelect = new Date(date)
-    var nextDate = new Date(date);
-    var prevDate = new Date(date);
-    nextDate.setDate(dateSelect.getDate()+1);
-    prevDate.setDate(dateSelect.getDate()-1);
-    console.log(dateSelect.toDateString(), nextDate.toDateString(), prevDate.toDateString())
-    actions.selectDay(dateSelect.toDateString(), nextDate.toDateString(), prevDate.toDateString());
-=======
 
 // Action called when date is selected on the calandar
   onDateSelect(date) {
@@ -43,7 +28,6 @@ class WorkoutCalendar extends Component {
     var dateSelect = new Date(date)
     // console.log(dateSelect.toDateString(), nextDate.toDateString(), prevDate.toDateString())
     actions.selectDay(dateSelect);
->>>>>>> 8c3b5a3a5c025f973f1c7c72500360a51949d56f
   }
 // Used to get day of week as string
   getDay(date, offset){
@@ -94,13 +78,18 @@ class WorkoutCalendar extends Component {
   monthSwipeRight(){
     console.log(this.props)
   }
+  selectWorkout(val){
+    const {navigate} =this.props.navigation
+    console.log("VAL", this.props)
+    navigate("WorkoutData", val)
+  }
   render(){
-    const {actions, calendarState} = this.props
+    const {actions, calendarState} = this.props;
     const config = {
       velocityThreshold: 0.15,
       directionalOffsetThreshold: 20
     };
-    console.log("CS", calendarState)
+    console.log("CS", this.props)
 
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
@@ -179,11 +168,10 @@ class WorkoutCalendar extends Component {
                           <Text>{val.athleteName}</Text>
                         </Body>
                         <Right>
-                          <Badge style={{ backgroundColor: '#8C97B5' }}><Text>2</Text></Badge>
-                        </Right>
-                        <Right>
+                        <TouchableOpacity onPress={()=>console.log("Pressed")}>
                           <Image source={require('../../assets/image/chat.png')} />
-                          </Right>
+                        </TouchableOpacity>
+                        </Right>
                       </ListItem>
                     }/>
                     </ScrollView>
@@ -219,12 +207,11 @@ class WorkoutCalendar extends Component {
                         <Text>{val.workoutName}</Text>
                         <Text>{val.athleteName}</Text>
                       </Body>
-                      <Right>
-                        <Badge style={{ backgroundColor: '#8C97B5' }}><Text>2</Text></Badge>
-                      </Right>
+                      <TouchableOpacity onPress={this.selectWorkout.bind(this, val)}>
                       <Right>
                         <Image source={require('../../assets/image/chat.png')} />
-                        </Right>
+                      </Right>
+                      </TouchableOpacity>
                     </ListItem>
                   }/>
                   </ScrollView>
@@ -254,19 +241,16 @@ class WorkoutCalendar extends Component {
                     <ListView
                      dataSource = {dataSourceNext}
                      renderRow={(val) =>
+                       <TouchableOpacity onPress={()=>console.log("Pressed")}>
                        <ListItem>
                         <Thumbnail style={{marginTop: 5, marginRight: 10, height: 36, width: 36, borderRadius: 18}} source={require('../../assets/image/Simulator.png')} />
                         <Body>
                           <Text>{val.workoutName}</Text>
                           <Text>{val.athleteName}</Text>
                         </Body>
-                        <Right>
-                          <Badge style={{ backgroundColor: '#8C97B5' }}><Text>2</Text></Badge>
-                        </Right>
-                        <Right>
                           <Image source={require('../../assets/image/chat.png')} />
-                          </Right>
                       </ListItem>
+                      </TouchableOpacity>
                     }/>
                     </ScrollView>
                     </List>

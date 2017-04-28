@@ -20,11 +20,20 @@ var workoutSchema = new mongoose.Schema({
   ]
 })
 
+var workoutMetricsSchema = new mongoose.Schema({
+  workoutName: String,
+  workoutMetrics: [
+    {
+    name: String,
+    }
+  ]
+})
+
 var teamDataSchema = new mongoose.Schema({
   teamName: String,
   teamPhoto: String,
   athletes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Athlete'}],
-  favoriteWorkouts: [String]
+  favoriteWorkouts: [{type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutMetrics'}]
 })
 
 workoutSchema.virtual('metricsObject').get(function () {
@@ -38,9 +47,11 @@ workoutSchema.virtual('metricsObject').get(function () {
 var Athlete = mongoose.model("Athlete", athleteSchema);
 var Workout = mongoose.model("Workout", workoutSchema);
 var TeamData = mongoose.model("TeamData", teamDataSchema);
+var WorkoutMetrics = mongoose.model("WorkoutMetrics", workoutMetricsSchema);
 
 module.exports = {
   Athlete: Athlete,
   Workout: Workout,
-  TeamData: TeamData
+  TeamData: TeamData,
+  workoutMetricsSchema
 }

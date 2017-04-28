@@ -3,8 +3,14 @@
 const express = require('express');
 const path = require('path');
 const app = express();
+// const socketio = require('socketio');
 const http = require('http').Server(app);
-// const io = require('socket.io')(http);
+// const ws = socketio(http)
+// http.listen(8080, () => console.log('listening on 8080'));
+//
+// ws.on('connection', (socket) => {
+//   console.log('A client just joined on: ', socket.id)
+// })
 const bodyParser = require('body-parser')
 
 const mongoose = require('mongoose');

@@ -10,19 +10,20 @@ const { jumpTo } = navigationActions;
 // import MessageIndex from './messageIndex';
 import WorkoutForm from './workoutForm';
 import WorkoutCalendar from './workoutCalendar';
-import TeamPage from './teamPage'
+import TeamPage from './teamPage';
+
 
 class ApplicationTabs extends Component {
 	_renderTabContent(tab) {
 		if (tab.key === 'messageBoard') {
 			return (
-				<TeamPage />
+				<TeamPage nav = {this.props.navigation}/>
 			);
 		}
 
 		if (tab.key === 'calandar') {
 			return (
-				<WorkoutCalendar />
+				<WorkoutCalendar/>
 			);
 		}
 
@@ -77,7 +78,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
 	return {
-		navigation: state.get('tabs'),
+		navigation: state.get('tabs')
 	};
 }
 

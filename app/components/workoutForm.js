@@ -10,7 +10,7 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight
+  TouchableHighlight, ScrollView
 } from 'react-native';
 
 var t = require('tcomb-form-native');
@@ -22,14 +22,6 @@ var weight = t.refinement(t.Number, function (n) { return n > 0; });
 weight.getValidationErrorMessage = function (value, path, context) {
   return 'capacity cannot be less than zero: ' + context.locale;
 };
-var Workout = t.struct({
-  name: t.String,
-  split1: t.String,
-  split2: t.String,
-  split3: t.String,
-  weight: weight,
-  date: t.Date
-})
 
 var options = {
   auto: 'placeholders',
@@ -44,60 +36,81 @@ var options = {
 export default class TeamManager extends Component {
   constructor(props) {
     super(props);
+    const {params} = this.props.navigation.state
+    var keys = [...params.workoutMetrics]
+    var valueMetrics ={};
+    keys.forEach(function(metric){
+      var name = metric.name;
+      valueMetrics[name] = ""
+    })
+    valueMetrics["weight"] = 150;
+
+    var metrics = [...params.workoutMetrics]
+    var metricsObj = {};
+    metrics.forEach(function(metric){
+      var name = metric.name;
+      metricsObj[name] = t.String
+    })
     this.state = {
       str: "",
       query: "",
-      value: {
-        name: "",
-        split1: "",
-        split2: "",
-        split3: "",
-        weight: 150
-      }
+      value: valueMetrics,
+      metrics: metricsObj
     }
   }
   onChange(value) {
     this.setState({value});
   }
+  onAddMetric() {
+
+  }
 
   onPress() {
+    const {params} = this.props.navigation.state
+
     var value = this.refs.form.getValue();
+    var name = this.state.query;
     var date = new Date(value.date);
     date = date.toDateString()
     console.log(date)
     var metricNames = Object.keys(value)
-    metricNames = metricNames.slice(1, (metricNames.length - 2))
+    metricNames = metricNames.slice(2, (metricNames.length))
     var metricObjects = metricNames.map((metric) => {
       return {name: metric, value: value[metric]}
     })
 
-    this.setState({value: {weight: 150}});
+    this.setState({query: "", value: {weight: 150}});
     if(value) {
       var copy = Object.assign({}, value);
+      copy["name"] = name;
+      console.log("COPY", copy)
 
-      // fetch("http://localhost:8080/postWorkoutSpreadsheet", {
-      //     method: 'POST',
-      //     headers: {
-      //       "Content-Type": "application/json"
-      //     },
-      //     body: JSON.stringify({
-      //       workoutData: copy
-      //     })
-      //   })
-      fetch("http://localhost:8080/postWorkoutMongo",{
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name: copy.name,
-          workoutName: "PlaceHolder",
-          date: date,
-          weight: copy.weight,
-          metricObjects: metricObjects
-
+      fetch("http://localhost:8080/postWorkoutSpreadsheet", {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            workoutData: copy
+          })
         })
-      })
+        .catch((err) => {
+          console.log('error in post to spreadsheet -> ', err)
+        });
+      // fetch("http://localhost:8080/postWorkoutMongo",{
+      //   method: 'POST',
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   },
+      //   body: JSON.stringify({
+      //     name: name,
+      //     workoutName: params.workoutName,
+      //     date: date,
+      //     weight: copy.weight,
+      //     metricObjects: metricObjects
+      //
+      //   })
+      // })
     }
   }
   _filterData(value){
@@ -120,20 +133,21 @@ export default class TeamManager extends Component {
     return filtered;
   }
   render() {
-
+    console.log("calendarForm",this.state.value)
     const {query} = this.state;
     const data = this._filterData(query)
+
+    var Workout = t.struct(Object.assign({
+      date: t.Date,
+      weight: weight
+    }, this.state.metrics))
+
     return (
       <View style={styles.container}>
         <Text style = {{fontSize: 25, fontWeight: '700', color: '#323232', marginTop: 20}}>Post a Workout </Text>
-        <Form
-          ref="form"
-          type={Workout}
-          options = {options}
-          onChange = {this.onChange.bind(this)}
-          value = {this.state.value}
-        />
-        <AutoSuggest style={{width: 300, height: 50}}
+        <ScrollView>
+        <AutoSuggest style={{width: 350, height: 35, borderRadius: 5}}
+          containerStyle = {{padding: 10, borderRadius: 5}}
           data={data}
           defaultValue = {query}
           onChangeText = {text => this.setState({query: text})}
@@ -143,9 +157,20 @@ export default class TeamManager extends Component {
             </TouchableHighlight>
           )}
         />
+        <Form
+          ref="form"
+          type={Workout}
+          options = {options}
+          onChange = {this.onChange.bind(this)}
+          value = {this.state.value}
+        />
+        <TouchableHighlight style={styles.button} onPress={this.onPress.bind(this)} underlayColor='#99d9f4'>
+          <Text style={styles.buttonText}>Add Metric</Text>
+        </TouchableHighlight>
         <TouchableHighlight style={styles.button} onPress={this.onPress.bind(this)} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Save</Text>
         </TouchableHighlight>
+        </ScrollView>
       </View>
     );
   }
@@ -174,5 +199,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
 }
 });
-
-AppRegistry.registerComponent('TeamManager', () => TeamManager);

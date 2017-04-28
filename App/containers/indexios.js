@@ -8,13 +8,13 @@ const styles = StyleSheet.create({
   }
 })
 
-import Navigation from '../components/navigation';
+import {TabBar} from '../components/navigation';
 
 class TeamManager extends Component {
   render() {
     return(
       <View style={styles.wrapper}>
-        <Navigation/>
+        <TabBar/>
       </View>
     )
   }

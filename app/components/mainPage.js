@@ -4,7 +4,6 @@ import {Container} from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 // import * as actionCreators from '../actions/loginAction';
-import Tabs from './tabs';
 import WorkoutCalendar from './workoutCalendar';
 import WorkoutForm from './workoutForm';
 
@@ -61,7 +60,7 @@ class Main extends Component {
         </TouchableOpacity>
         </View>
         <View style = {styles.selectOption}>
-        <TouchableOpacity onPress={() => navigate('PostWorkout')}>
+        <TouchableOpacity onPress={() => navigate('PostWorkout', {hello:4})}>
         <Image source={require('../../assets/image/trainingLog.jpg')} resizeMode="stretch" style={{width:width, height:145, justifyContent:'flex-end', alignItems:'flex-start'}}>
           <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700', marginLeft: 10}}>Post Workout</Text>
         </Image>

@@ -62,9 +62,9 @@ var addRowData = function(){
   console.log('ADD ROW')
   sheet.addRow({
     "name" : req.body.name,
-    "split1": req.body.split1,
-    "split2": req.body.split2,
-    "split3": req.body.split3,
+    "split1": req.body.piece1,
+    "split2": req.body.piece2,
+    "split3": req.body.piece3,
     "weight": req.body.weight
   }, function(err){
     if (err){
@@ -78,7 +78,7 @@ var addRowData = function(){
 
 router.post('/postWorkoutSpreadsheet', function(req, res){
   var data = req.body.workoutData
-  console.log("This is REQd", req.body)
+  console.log("This is REQd", data)
   async.series([
     function(callback) {
       doc.getInfo(function(err, info) {
@@ -113,14 +113,18 @@ router.post('/postWorkoutSpreadsheet', function(req, res){
               console.log(rowData.name)
               index = i;
             }
-            rows[i].save();
+            // rows[i].save();
           });
           if (index) {
-            rows[index].del();
+            rows[index].del(function(err, result){
+              console.log("Rows", rows)
+              callback(null, 'callback')
+            });
+          } else {
+            console.log("Rows", rows)
+            callback(null, 'callback')
           }
         }
-        console.log("Rows", rows)
-        callback(null, 'callback')
 
       })
     },
@@ -128,9 +132,9 @@ router.post('/postWorkoutSpreadsheet', function(req, res){
       console.log('ADD ROW')
       sheet.addRow({
         "name" : data.name,
-        "split1": data.split1,
-        "split2": data.split2,
-        "split3": data.split3,
+        "split1": data.piece1,
+        "split2": data.piece2,
+        "split3": data.piece3,
         "weight": data.weight
       }, function(err, rows){
         if (err){
