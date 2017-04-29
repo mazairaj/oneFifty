@@ -4,6 +4,7 @@ import { Container, Content, Card, CardItem, Right, Left, Thumbnail, List, ListI
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+//TODO Design WorkoutData Layout
 class WorkoutData extends Component {
   constructor(props){
     super(props)
@@ -13,8 +14,8 @@ class WorkoutData extends Component {
     console.log("HEOTEOTEOH", params)
     return (
       <View>
-      <Text>{params.athleteName}</Text>
-      <Text>{params.workoutName}</Text>
+        <Text>{params.athleteName}</Text>
+        <Text>{params.workoutName}</Text>
       </View>
     )
   }

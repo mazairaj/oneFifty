@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
 })
 
 import {TabBar} from '../components/navigation';
-
+//call Tabbar
 class TeamManager extends Component {
   render() {
     return(

@@ -15,7 +15,7 @@ var { width, height } = Dimensions.get('window');
 class TeamPage extends Component {
   constructor(props){
     super(props)
-    // 
+    //
     // this.socket = SocketIOClient('http://localhost:8080')
   }
   render(){
@@ -25,14 +25,15 @@ class TeamPage extends Component {
     console.log(this.props)
     return (
       <Container style ={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <ListView
-       dataSource = {dataSource}
-       renderHeader = {() => <CreatePost/>}
-       renderRow={(val, i) =>
-        <Content style={{ paddingLeft: 10, paddingRight: 10,width: width}}>
-          <NewsFeedCard cardProps = {val}/>
-        </Content>
-      }/></Container>
+        <ListView
+         dataSource = {dataSource}
+         renderHeader = {() => <CreatePost/>} //Render CreatePost first
+         renderRow={(val, i) =>
+          <Content style={{ paddingLeft: 10, paddingRight: 10,width: width}}> //Render NewsFeed
+            <NewsFeedCard cardProps = {val}/>
+          </Content>
+        }/>
+      </Container>
     )
   }
 }
@@ -58,15 +59,19 @@ var styles = StyleSheet.create({
   }
 });
 
+//map TeamPageState to Props
+//Allow dispatch to be called with provided actionCreators
+//connect State Props and Actions
 function mapStateToProps(state) {
     return {
         teamPageState: state.get('teamPageState'),
     };
 }
+//Allow dispatch to be called with provided actionCreators
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators(actionCreators, dispatch),
     };
 }
-
+//connect State Props and Actions
 export default connect(mapStateToProps, mapDispatchToProps)(TeamPage);

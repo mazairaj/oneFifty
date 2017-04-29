@@ -12,6 +12,7 @@ var sheet;
 var creds = require('../My_Project_Cred');
 var async = require('async')
 
+//Authenticates credentials
 doc.useServiceAccountAuth(creds, function(err, item){
   if (err) {
     console.log(err)
@@ -75,10 +76,11 @@ var addRowData = function(){
   })
 }
 
-
+//post information directly to spreadsheet
 router.post('/postWorkoutSpreadsheet', function(req, res){
   var data = req.body.workoutData
   console.log("This is REQd", data)
+  //async.series calls each function asynchronously in sequntial order
   async.series([
     function(callback) {
       doc.getInfo(function(err, info) {
@@ -148,61 +150,6 @@ router.post('/postWorkoutSpreadsheet', function(req, res){
     }
   ])
 })
-// router.post('/test', function(req, res){
-//   async.series([
-//   function(callback) {
-//     doc.getInfo(function(err, info) {
-//       console.log("<<<<<<<< Inside Get INfo >>>>>>")
-//         console.log('Loaded doc: '+info.title+' by '+info.author.email);
-//         sheet = info.worksheets[0];
-//         console.log('sheet 1: '+sheet.title+' '+sheet.rowCount+'x'+sheet.colCount);      // do some stuff ...
-//       callback(null, 'one');
-//   })
-// },
-//     function(callback)
-//         // do some more stuff ...
-//         console.log("<<<<<<<< Inside working cells >>>>>>")
-//         sheet.setHeaderRow(['name', 'split1', 'split2', 'split3', 'weight'], function(err){
-//           if (err) {
-//             console.log(err)
-//           } else {
-//             console.log("Whatever")
-//             callback(null, 'two')
-//           }
-//         })
-//       },
-//       function (callback) {
-//         console.log('ADD ROW')
-//         sheet.addRow({
-//           "name" : req.body.name,
-//           "split1": req.body.split1,
-//           "split2": req.body.split2,
-//           "split3": req.body.split3,
-//           "weight": req.body.weight
-//         }, function(err){
-//           if (err){
-//             console.log(err)
-//           } else {
-//             callback(null, 'three')
-//           }
-//         })
-//       },
-//     function(callback){
-//       console.log("In Get Cells")
-//       sheet.getRows({offset: 1,
-//       limit: 20,
-//       orderby: 'weight'}, function(err, rows){
-//         if (err) {
-//           console.log(err)
-//         } else {
-//           console.log(rows)
-//           res.json(rows);
-//
-//         }
-//       })
-//     }
-//   ])
-// });
 
 router.post('/createWorkout', function(req, res){
   var workoutTitle = req.body.title;

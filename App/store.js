@@ -5,6 +5,7 @@ import thunk from 'redux-thunk';
 import createReducer  from './reducers/combineReducer';
 import devTools from 'remote-redux-devtools';
 // = fromJS({ })
+//create Store with middle ware and combined reducers
 function configureStore(initialState) {
 	const createStoreWithMiddleware = compose(applyMiddleware(thunk), devTools())(createStore);
 	return createStoreWithMiddleware(createReducer(), initialState);

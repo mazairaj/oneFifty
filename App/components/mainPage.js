@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { View, ActivityIndicator, AsyncStorage, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
+import { View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
 import {Container} from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -10,8 +10,6 @@ import WorkoutForm from './workoutForm';
 import {
   StackNavigator,
 } from 'react-navigation';
-
-
 
 var Dimensions = require('Dimensions');
 var { width, height } = Dimensions.get('window');
@@ -53,25 +51,25 @@ class Main extends Component {
           marginBottom: 5,
           alignItems: 'center'
         }}>
-        <TouchableOpacity onPress={() => navigate('TeamPage')}>
-        <Image source={require('../../assets/image/rugby.jpg')} resizeMode="stretch" style={{width:width, height:145, justifyContent:'flex-end', alignItems:'flex-start'}}>
-          <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700', marginLeft: 10}}>Your Teams</Text>
-        </Image>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigate('TeamPage')}>
+            <Image source={require('../../assets/image/rugby.jpg')} resizeMode="stretch" style={{width:width, height:145, justifyContent:'flex-end', alignItems:'flex-start'}}>
+              <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700', marginLeft: 10}}>Your Teams</Text>
+            </Image>
+          </TouchableOpacity>
         </View>
         <View style = {styles.selectOption}>
-        <TouchableOpacity onPress={() => navigate('PostWorkout', {hello:4})}>
-        <Image source={require('../../assets/image/trainingLog.jpg')} resizeMode="stretch" style={{width:width, height:145, justifyContent:'flex-end', alignItems:'flex-start'}}>
-          <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700', marginLeft: 10}}>Post Workout</Text>
-        </Image>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigate('PostWorkout', {hello:4})}>
+            <Image source={require('../../assets/image/trainingLog.jpg')} resizeMode="stretch" style={{width:width, height:145, justifyContent:'flex-end', alignItems:'flex-start'}}>
+              <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700', marginLeft: 10}}>Post Workout</Text>
+            </Image>
+          </TouchableOpacity>
         </View>
         <View style = {styles.selectOption}>
-        <TouchableOpacity onPress={() => navigate('TeamPage')}>
-        <Image source={require('../../assets/image/weights.jpeg')} resizeMode="stretch" style={{width:width, height:145, justifyContent:'flex-end', alignItems:'flex-start'}}>
-          <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700', marginLeft: 10}}>Create Workout</Text>
-        </Image>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigate('TeamPage')}>
+            <Image source={require('../../assets/image/weights.jpeg')} resizeMode="stretch" style={{width:width, height:145, justifyContent:'flex-end', alignItems:'flex-start'}}>
+              <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700', marginLeft: 10}}>Create Workout</Text>
+            </Image>
+          </TouchableOpacity>
         </View>
         <View style = {{
           flex: 1,
@@ -79,11 +77,11 @@ class Main extends Component {
           marginTop: 5,
           alignItems: 'center'
         }}>
-        <TouchableOpacity onPress={() => navigate('TeamPage')}>
-        <Image source={require('../../assets/image/calendarPhoto.jpg')} resizeMode="stretch" style={{width:width, height:145, justifyContent:'flex-end', alignItems:'flex-start'}}>
-          <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700', marginLeft: 10}}>Your Calendar</Text>
-        </Image>
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigate('TeamPage')}>
+            <Image source={require('../../assets/image/calendarPhoto.jpg')} resizeMode="stretch" style={{width:width, height:145, justifyContent:'flex-end', alignItems:'flex-start'}}>
+              <Text style={{backgroundColor:'rgba(0,0,0,0)', textAlign:'center', color:'#fff', fontSize:25, fontWeight:'700', marginLeft: 10}}>Your Calendar</Text>
+            </Image>
+          </TouchableOpacity>
         </View>
       </View>
     )

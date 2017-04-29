@@ -19,13 +19,14 @@ const {
   OptionList,
   updatePosition
 } = DropDown;
-
+//Dropdown menu to select from different workouts to populate form
 export class SelectWorkout extends Component {
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
+    //Used to create references to each selection in option list
     updatePosition(this.refs['SELECT1']);
     updatePosition(this.refs['OPTIONLIST']);
   }

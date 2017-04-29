@@ -18,7 +18,7 @@ var Form = t.form.Form;
 
 import AutoSuggest from 'react-native-autocomplete-input'
 var weight = t.refinement(t.Number, function (n) { return n > 0; });
-
+//weight must be a number
 weight.getValidationErrorMessage = function (value, path, context) {
   return 'capacity cannot be less than zero: ' + context.locale;
 };
@@ -38,19 +38,21 @@ export default class TeamManager extends Component {
     super(props);
     const {params} = this.props.navigation.state
     var keys = [...params.workoutMetrics]
+    //define the value metrics fot the selected workout form
     var valueMetrics ={};
     keys.forEach(function(metric){
       var name = metric.name;
       valueMetrics[name] = ""
     })
     valueMetrics["weight"] = 150;
-
+    //define metrics in tcomb format
     var metrics = [...params.workoutMetrics]
     var metricsObj = {};
     metrics.forEach(function(metric){
       var name = metric.name;
       metricsObj[name] = t.String
     })
+    //state metrics change for each selected workout
     this.state = {
       str: "",
       query: "",

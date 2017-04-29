@@ -7,7 +7,7 @@ const Workout = require('../models/models').Workout;
 const bodyParser = require('body-parser')
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json())
-
+//Searches database for three dates. No longer in use
 router.post('/selectDay', function(req, res){
   var dateSelect;
   var prevDate;
@@ -41,7 +41,7 @@ router.post('/selectDay', function(req, res){
     })
   })
 })
-
+//Get the data for the full month. Sort the date seletions in redux
 router.post('/getMonth', function(req, res){
   var month = req.body.month
   console.log(month)

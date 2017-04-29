@@ -1,4 +1,7 @@
+//Actions associated with Calendar Page
 export function selectDay(date) {
+  //Pull the workouts associated witha  certain day. Have them appear on a card Only visible
+  //when a day is selected
   return {
     type: "POPULATE_WORKOUTS",
     date: date,
@@ -6,6 +9,7 @@ export function selectDay(date) {
   }
 }
 export function swipeDate(date, index) {
+  //Swipe between dates in card view. Swipe left for next day swipe right for previosu day
   console.log("Did something")
   var day = date.getDate();
   console.log(date, day, index)
@@ -17,12 +21,14 @@ export function swipeDate(date, index) {
   }
 }
 export function toggleDateClickFalse(){
+  //Action called to exit card view
   return {
     type: "TOGGLE_CLICK_FALSE",
     dateClicked: false
   }
 }
 export function getMonthData(month){
+  //Populate all of the workouts for a particular month
   return dispatch => {
     fetch("http://localhost:8080/getMonth", {
       method: 'POST',

@@ -12,7 +12,7 @@ import WorkoutForm from './workoutForm';
 import WorkoutCalendar from './workoutCalendar';
 import TeamPage from './teamPage';
 
-
+//TabBar used before react navigation
 class ApplicationTabs extends Component {
 	_renderTabContent(tab) {
 		if (tab.key === 'messageBoard') {

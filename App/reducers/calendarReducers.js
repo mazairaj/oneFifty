@@ -10,6 +10,7 @@ var getDay = function(date, offset){
   var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
   return days[day]
 }
+//called to find the given workouts on a day and define the previous and next date as well
 export default function selectDay(state = {
   populatedWorkouts: [[],[],[]],
   orderDates:[{},{},{}],
@@ -45,6 +46,7 @@ export default function selectDay(state = {
       var nextDate = monthData[day]
       var currOrder;
       var orderDates;
+      //define the proper ordering in the cycle of three cards
       if (index == 2) {
         currOrder = [nextDate, prevDate, currDate, 2]
         orderDates = [{date: day + 1, day: getDay(action.date, + 1) }, {date: day - 1, day: getDay(action.date, - 1)}, {date: day , day:getDay(action.date, 0) }]

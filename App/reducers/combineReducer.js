@@ -15,7 +15,7 @@ const applicationReducers = {
 	teamData: teamData,
 	teamPageState: teamPageState
 };
-
+//Create reducer function that combines all of the reducers
 export default function createReducer() {
 	return combineReducers(applicationReducers);
 }
