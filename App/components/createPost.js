@@ -39,9 +39,9 @@ class CreatePost extends Component{
       })
     }).then(this.props.actions.postedData(post))
     //
-    this.props.socket.on('post', (post) => {
-      this.props.socket.broadcast('post', post)
-    })
+    // this.props.socket.on('post', (post) => {
+    //   this.props.socket.broadcast('post', post)
+    // });
   }
   render(){
     return (

@@ -16,12 +16,12 @@ var { width, height } = Dimensions.get('window');
 class TeamPage extends Component {
   constructor(props){
     super(props)
-    this.socket = SocketIOClient('https://morning-taiga-46107.herokuapp.com/', {
-      transports: ['websocket']});
+    // this.socket = SocketIOClient('https://morning-taiga-46107.herokuapp.com/', {
+    //   transports: ['websocket']});
 
-    this.socket.on('post', (post) => {
-      this.props.actions.postedData(post)
-    })
+    // this.socket.on('post', (post) => {
+    //   this.props.actions.postedData(post)
+    // })
     //
     // this.state = {
     //   socket: SocketIOClient('http://localhost:8080')
