@@ -32,8 +32,7 @@ router.get('/', function(req, res){
   res.send("RUNNING ...")
 })
 
-router.post('/newPost', upload.single('file'),
-  { name: 'video', maxCount: 1}]), function(req, res) {
+router.post('/newPost', upload.single('file'), function(req, res) {
   console.log("REQD", req)
   var newPost = new Post(req.body.post)
   newPost.save(function(err, postNew){
