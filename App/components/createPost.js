@@ -33,6 +33,7 @@ class CreatePost extends Component{
     }
     this.setState({text: ""})
     if (this.state.photo) {
+      console.log("IN S3")
       fetch('https://morning-taiga-46107.herokuapp.com/postToS3', {
          method: 'POST',
          headers: {
@@ -54,6 +55,7 @@ class CreatePost extends Component{
        })
      })).then(this.props.actions.postedData(post))
    } else {
+     console.log("Not in S3")
       fetch("https://morning-taiga-46107.herokuapp.com/newPost",{
         method: 'POST',
         headers: {
@@ -103,20 +105,6 @@ class CreatePost extends Component{
       console.log(formData)
       this.setState({photoData: formData});
     });
-  //        fetch('https://morning-taiga-46107.herokuapp.com/postToS3', {
-  //    method: 'POST',
-  //    headers: {
-  //      'Content-Type': 'multipart/form-data'
-  //    },
-  //    body: formData
-  //  })
-  //  .then(resp => resp.json())
-  //  .then(resp => {
-  //    console.log('success upload', resp);
-  //    photo = resp.file.location;
-  //  })
-  //  .catch(resp => console.log('err upload', resp));
-  //   });
   }
   render(){
     console.log('PhotoBITCH', this.state.photo)
