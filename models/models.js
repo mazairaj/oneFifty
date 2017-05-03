@@ -36,6 +36,18 @@ var teamDataSchema = new mongoose.Schema({
   favoriteWorkouts: [{type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutMetrics'}]
 })
 
+var postSchema = new mongoose.Schema({
+  name: String,
+  date: String,
+  profileImg: String,
+  postType: String,
+  cardImage: String,
+  bodyText: String,
+  likes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Athlete'}],
+  //comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
+
+})
+
 workoutSchema.virtual('metricsObject').get(function () {
   var metricsObject = {}
   this.workoutMetrics.forEach((array) => {
@@ -48,10 +60,12 @@ var Athlete = mongoose.model("Athlete", athleteSchema);
 var Workout = mongoose.model("Workout", workoutSchema);
 var TeamData = mongoose.model("TeamData", teamDataSchema);
 var WorkoutMetrics = mongoose.model("WorkoutMetrics", workoutMetricsSchema);
+var Post = mongoose.model("Post", postSchema);
 
 module.exports = {
   Athlete: Athlete,
   Workout: Workout,
   TeamData: TeamData,
-  workoutMetricsSchema
+  workoutMetricsSchema,
+  Post: Post
 }

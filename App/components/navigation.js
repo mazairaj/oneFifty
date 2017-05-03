@@ -11,18 +11,20 @@ import TeamPage from './teamPage'
 export const Navigation = StackNavigator({
   MainPage: {screen: Main},
   TeamPage: {screen: TeamPage},
-  PostWorkout: {screen: SelectWorkout},
-  Calendar: {screen: WorkoutCalendar},
-  WorkoutForm: {screen: WorkoutForm}
 });
 //Navigation for calendar Tab
 export const CalNav = StackNavigator({
   Calendar: {screen: WorkoutCalendar},
   WorkoutData: {screen: WorkoutData}
 })
+
+export const WorkoutHistNav = StackNavigator({
+  SelectWorkout: {screen: SelectWorkout},
+  WorkoutForm: {screen: WorkoutForm}
+})
 //TabBar NAvigation
 export const TabBar = TabNavigator({
-  MainPage: {screen: Navigation},
+  MainPage: {screen: TeamPage},
   Calendar: {screen: CalNav},
-  WorkoutHistory: {screen: SelectWorkout}
+  WorkoutHistory: {screen: WorkoutHistNav}
 })

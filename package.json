@@ -10,6 +10,8 @@
     "async": "^2.3.0",
     "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "feathers": "^2.1.1",
+    "feathers-socketio": "^1.6.0",
     "google-spreadsheet": "^2.0.3",
     "http": "0.0.0",
     "immutable": "^3.8.1",

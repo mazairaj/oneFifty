@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { View, StyleSheet, Text, Image} from 'react-native';
-import { Content, Card, CardItem, Right, Thumbnail,Item, Badge, Button} from 'native-base';
+import { Content, Card, CardItem, Right, Thumbnail,Item, Badge, Button, Input} from 'native-base';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actionCreators from '../actions/teamPageActions';
 
 var Dimensions = require('Dimensions');
 var { width, height } = Dimensions.get('window');
@@ -9,9 +12,30 @@ var { width, height } = Dimensions.get('window');
 class CreatePost extends Component{
   constructor(props){
     super(props)
+    this.state = {
+      text: ""
+    }
   }
   post(){
-
+    var date = new Date()
+    var post = {
+      name: "Julian Mazaira",
+      date: date.toDateString(),
+      profileImg: "",
+      postType: "",
+      cardImage: "",
+      bodyText: this.state.text
+    }
+    this.setState({text: ""})
+    fetch("https://serene-lake-67052.herokuapp.com/newPost",{
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        post: post
+      })
+    }).then(this.props.actions.postedData(post))
   }
   render(){
     return (
@@ -34,7 +58,9 @@ class CreatePost extends Component{
                 <Thumbnail square size={80} source={require('../../assets/image/Simulator.png')} />
                   <Content>
                     <Item style={{marginLeft: 10, borderColor: 'gray', borderWidth: 1}} >
-                      <Input placeholder='Bye Felicia!'/>
+                      <Input placeholder='Bye Felicia!' ref= {(el) => { this.text = el }}
+                        onChangeText={(text) => this.setState({text})}
+                        value={this.state.text}/>
                     </Item>
                   </Content>
                 </View>
@@ -42,7 +68,7 @@ class CreatePost extends Component{
             </View>
             <CardItem>
               <Right>
-                <Button style={{height: 30}}><Text>Post</Text></Button>
+                <Button style={{height: 30}} onPress={this.post.bind(this)}><Text>Post</Text></Button>
               </Right>
             </CardItem>
           </Content>
@@ -51,4 +77,16 @@ class CreatePost extends Component{
     )
   }
 }
-export default CreatePost;
+function mapStateToProps(state) {
+    return {
+        teamPageState: state.get('teamPageState'),
+    };
+}
+//Allow dispatch to be called with provided actionCreators
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(actionCreators, dispatch),
+    };
+}
+//connect State Props and Actions
+export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);

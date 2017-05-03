@@ -3,11 +3,13 @@ import { View, ActivityIndicator, AsyncStorage, StyleSheet, Text, Image, Touchab
 import { Container, Content, Card, CardItem, Right, Left, Thumbnail, List, ListItem, Body, Header, Badge, Button} from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as actionCreators from '../actions/calendarActions';
+import * as actionCreators from '../actions/teamPageActions';
 // import SocketIOClient from 'socket.io-client';
 
 import NewsFeedCard from './newsFeedCard'
 import CreatePost from './createPost'
+import SocketIOClient from 'socket.io-client';
+
 
 var Dimensions = require('Dimensions');
 var { width, height } = Dimensions.get('window');
@@ -16,8 +18,16 @@ class TeamPage extends Component {
   constructor(props){
     super(props)
     //
-    // this.socket = SocketIOClient('http://localhost:8080')
+    // this.state = {
+    //   socket: SocketIOClient('http://localhost:8080')
+    // }
   }
+  componentDidMount(){
+  // this.state.socket.on('connect', function() {
+  //  console.log('connected');
+  // });
+  // console.log('client', this.state.socket)
+ }
   render(){
     const {teamPageState} = this.props;
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -29,7 +39,7 @@ class TeamPage extends Component {
          dataSource = {dataSource}
          renderHeader = {() => <CreatePost/>} //Render CreatePost first
          renderRow={(val, i) =>
-          <Content style={{ paddingLeft: 10, paddingRight: 10,width: width}}> //Render NewsFeed
+          <Content style={{ paddingLeft: 10, paddingRight: 10,width: width}}>
             <NewsFeedCard cardProps = {val}/>
           </Content>
         }/>

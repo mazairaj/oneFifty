@@ -30,7 +30,7 @@ export function toggleDateClickFalse(){
 export function getMonthData(month){
   //Populate all of the workouts for a particular month
   return dispatch => {
-    fetch("http://localhost:8080/getMonth", {
+    fetch("https://serene-lake-67052.herokuapp.com/getMonth", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

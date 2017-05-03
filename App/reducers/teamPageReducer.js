@@ -45,6 +45,10 @@ export default function teamPage(state = {
   ]
 }, action) {
   switch(action.type) {
+    case "POSTED_DATA":
+      return Object.assign({}, state, {
+        newsFeedCards: [...[action.post], ...state.newsFeedCards]
+      })
     default:
       return state;
   }

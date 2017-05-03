@@ -87,32 +87,32 @@ export default class TeamManager extends Component {
       copy["name"] = name;
       console.log("COPY", copy)
 
-      fetch("http://localhost:8080/postWorkoutSpreadsheet", {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            workoutData: copy
-          })
-        })
-        .catch((err) => {
-          console.log('error in post to spreadsheet -> ', err)
-        });
-      // fetch("http://localhost:8080/postWorkoutMongo",{
-      //   method: 'POST',
-      //   headers: {
-      //     "Content-Type": "application/json"
-      //   },
-      //   body: JSON.stringify({
-      //     name: name,
-      //     workoutName: params.workoutName,
-      //     date: date,
-      //     weight: copy.weight,
-      //     metricObjects: metricObjects
-      //
+      // fetch("https://serene-lake-67052.herokuapp.com/postWorkoutSpreadsheet", {
+      //     method: 'POST',
+      //     headers: {
+      //       "Content-Type": "application/json"
+      //     },
+      //     body: JSON.stringify({
+      //       workoutData: copy
+      //     })
       //   })
-      // })
+      //   .catch((err) => {
+      //     console.log('error in post to spreadsheet -> ', err)
+      //   });
+      fetch("https://serene-lake-67052.herokuapp.com/postWorkoutMongo",{
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: name,
+          workoutName: params.workoutName,
+          date: date,
+          weight: copy.weight,
+          metricObjects: metricObjects
+
+        })
+      })
     }
   }
   _filterData(value){
