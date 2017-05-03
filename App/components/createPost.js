@@ -18,6 +18,7 @@ class CreatePost extends Component{
     }
   }
   post(){
+    console.log("PROPSBITCH", this.props)
     var date = new Date()
     var post = {
       name: "Julian Mazaira",
@@ -37,8 +38,10 @@ class CreatePost extends Component{
         post: post
       })
     }).then(this.props.actions.postedData(post))
-
-    this.props.socket.broadcast('post', post)
+    //
+    this.props.socket.on('post', (post) => {
+      this.props.socket.broadcast('post', post)
+    })
   }
   render(){
     return (

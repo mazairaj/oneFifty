@@ -4,12 +4,12 @@ const express = require('express');
 const path = require('path');
 const app = express();
 var server = require('http').Server(app);
-// var io = require('socket.io')(server);
+var io = require('socket.io')(server);
 
 
-// io.on('connected', (socket) => {
-//   console.log('A client just joined on: ', socket.id)
-// })
+io.on('connected', (socket) => {
+  console.log('A client just joined on: ', socket.id)
+})
 const bodyParser = require('body-parser')
 
 const mongoose = require('mongoose');

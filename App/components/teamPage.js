@@ -16,11 +16,10 @@ var { width, height } = Dimensions.get('window');
 class TeamPage extends Component {
   constructor(props){
     super(props)
-    this.state = {
-      socket: SocketIOClient('https://morning-taiga-46107.herokuapp.com/', {
-      transports: ['websocket']})
-    }
-    this.state.socket.on('post', (post) => {
+    this.socket = SocketIOClient('https://morning-taiga-46107.herokuapp.com/', {
+      transports: ['websocket']});
+
+    this.socket.on('post', (post) => {
       this.props.actions.postedData(post)
     })
     //
@@ -35,12 +34,13 @@ class TeamPage extends Component {
     const {teamPageState} = this.props;
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     const dataSource = ds.cloneWithRows(teamPageState.newsFeedCards);
-    console.log(this.props)
+    console.log("PROPS", this.props)
+    console.log("BLAHBLAHBLAHBLAH", this.socket)
     return (
       <Container style ={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <ListView
          dataSource = {dataSource}
-         renderHeader = {() => <CreatePost socket={this.state.socket}/>} //Render CreatePost first
+         renderHeader = {() => <CreatePost socket={this.socket}/>} //Render CreatePost first
          renderRow={(val, i) =>
           <Content style={{ paddingLeft: 10, paddingRight: 10,width: width}}>
             <NewsFeedCard cardProps = {val}/>
