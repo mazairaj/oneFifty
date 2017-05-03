@@ -12,6 +12,7 @@ var { width, height } = Dimensions.get('window');
 class CreatePost extends Component{
   constructor(props){
     super(props)
+
     this.state = {
       text: ""
     }
@@ -27,7 +28,7 @@ class CreatePost extends Component{
       bodyText: this.state.text
     }
     this.setState({text: ""})
-    fetch("https://serene-lake-67052.herokuapp.com/newPost",{
+    fetch("https://morning-taiga-46107.herokuapp.com/newPost",{
       method: 'POST',
       headers: {
         "Content-Type": "application/json"
@@ -36,6 +37,8 @@ class CreatePost extends Component{
         post: post
       })
     }).then(this.props.actions.postedData(post))
+
+    this.props.socket.broadcast('post', post)
   }
   render(){
     return (

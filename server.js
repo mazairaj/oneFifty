@@ -1,15 +1,15 @@
 "use strict";
-//https://shielded-escarpment-35201.herokuapp.com/
+//https://morning-taiga-46107.herokuapp.com/
 const express = require('express');
 const path = require('path');
 const app = express();
 var server = require('http').Server(app);
-// var io = require('socket.io')(server);
-// server.listen(8080, () => console.log('listening on 8080'));
-//
-// io.on('connection', (socket) => {
-//   console.log('A client just joined on: ', socket.id)
-// })
+var io = require('socket.io')(server);
+server.listen(8080, () => console.log('listening on 8080'));
+
+io.on('connection', (socket) => {
+  console.log('A client just joined on: ', socket.id)
+})
 const bodyParser = require('body-parser')
 
 const mongoose = require('mongoose');
@@ -34,23 +34,23 @@ app.use('/', teamPageRoute);
 
 const Post = require('./models/models').Post;
 
-// io.on('post', (post) => {
-//   // Save the message document in the `messages` collection.
-//   var newPost = new Post({
-//     ...post
-//   })
-//   newPost.save(function(err, postNew){
-//     if (err) {
-//       console.log('error has occur: ',  err)
-//     } else {
-//       console.log('Nice, you created a file')
-//       console.log(postNew);
-//     }
-//   }).then (socket.broadcast.emit('post', post){
-//     console.log("Post", post)
-//   })
-//
-// });
+io.on('post', (post) => {
+  // Save the message document in the `messages` collection.
+  var newPost = new Post({
+    ...post
+  })
+  newPost.save(function(err, postNew){
+    if (err) {
+      console.log('error has occur: ',  err)
+    } else {
+      console.log('Nice, you created a file')
+      console.log(postNew);
+    }
+  }).then (socket.broadcast.emit('post', post){
+    console.log("Post", post)
+  })
+
+});
 
 var port = process.env.PORT || 8080;
 server.listen(port, function() {

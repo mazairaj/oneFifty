@@ -87,7 +87,7 @@ export default class TeamManager extends Component {
       copy["name"] = name;
       console.log("COPY", copy)
 
-      // fetch("https://serene-lake-67052.herokuapp.com/postWorkoutSpreadsheet", {
+      // fetch("https://morning-taiga-46107.herokuapp.com/postWorkoutSpreadsheet", {
       //     method: 'POST',
       //     headers: {
       //       "Content-Type": "application/json"
@@ -99,7 +99,7 @@ export default class TeamManager extends Component {
       //   .catch((err) => {
       //     console.log('error in post to spreadsheet -> ', err)
       //   });
-      fetch("https://serene-lake-67052.herokuapp.com/postWorkoutMongo",{
+      fetch("https://morning-taiga-46107.herokuapp.com/postWorkoutMongo",{
         method: 'POST',
         headers: {
           "Content-Type": "application/json"

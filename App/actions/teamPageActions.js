@@ -1,7 +1,7 @@
 export function populatePosts(){
   //Populate all of the workouts for a particular month
   return dispatch => {
-    fetch("https://serene-lake-67052.herokuapp.com/populatePosts", {
+    fetch("https://morning-taiga-46107.herokuapp.com/populatePosts", {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'

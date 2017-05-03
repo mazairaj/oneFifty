@@ -4,7 +4,6 @@ import { Container, Content, Card, CardItem, Right, Left, Thumbnail, List, ListI
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/teamPageActions';
-// import SocketIOClient from 'socket.io-client';
 
 import NewsFeedCard from './newsFeedCard'
 import CreatePost from './createPost'
@@ -17,16 +16,19 @@ var { width, height } = Dimensions.get('window');
 class TeamPage extends Component {
   constructor(props){
     super(props)
+    this.socket = SocketIOClient('https://morning-taiga-46107.herokuapp.com/', {
+      transports: ['websocket']
+    });
+    this.socket.on('post', (post) => {
+      this.props.actions.postedData(post)
+    })
     //
     // this.state = {
     //   socket: SocketIOClient('http://localhost:8080')
     // }
   }
   componentDidMount(){
-  // this.state.socket.on('connect', function() {
-  //  console.log('connected');
-  // });
-  // console.log('client', this.state.socket)
+
  }
   render(){
     const {teamPageState} = this.props;
@@ -37,7 +39,7 @@ class TeamPage extends Component {
       <Container style ={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <ListView
          dataSource = {dataSource}
-         renderHeader = {() => <CreatePost/>} //Render CreatePost first
+         renderHeader = {() => <CreatePost socket={this.socket}/>} //Render CreatePost first
          renderRow={(val, i) =>
           <Content style={{ paddingLeft: 10, paddingRight: 10,width: width}}>
             <NewsFeedCard cardProps = {val}/>
