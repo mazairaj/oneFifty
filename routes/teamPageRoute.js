@@ -2,7 +2,6 @@
 "use strict";
 var express = require('express'),
 aws = require('aws-sdk'),
-bodyParser = require('body-parser'),
 multer = require('multer'),
 multerS3 = require('multer-s3');
 var router = express.Router();
@@ -35,7 +34,7 @@ router.get('/', function(req, res){
 
 router.post('/newPost', upload.single('file'),
   { name: 'video', maxCount: 1}]), function(req, res) {
-  console.log("REQD", req)  
+  console.log("REQD", req)
   var newPost = new Post(req.body.post)
   newPost.save(function(err, postNew){
     if (err) {
