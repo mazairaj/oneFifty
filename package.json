@@ -24,6 +24,7 @@
     "react-native-calendar": "^0.11.0",
     "react-native-dropdown": "0.0.6",
     "react-native-elements": "^0.11.1",
+    "react-native-image-picker": "^0.26.3",
     "react-native-navigation-redux-helpers": "^0.5.0",
     "react-native-page-swiper": "^0.3.0",
     "react-native-swipe-gestures": "^1.0.2",

@@ -1,7 +1,28 @@
 "use strict";
-var express = require('express');
+"use strict";
+var express = require('express'),
+aws = require('aws-sdk'),
+bodyParser = require('body-parser'),
+multer = require('multer'),
+multerS3 = require('multer-s3');
 var router = express.Router();
-// var _ = require('underscore')
+
+//settting up S3
+var s3 = new aws.S3();
+var upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'one-fifty',
+    metadata: function (req, file, cb) {
+      cb(null, {fieldName: file.fieldname});
+    },
+    key: function (req, file, cb) {
+      // console.log('key', file);
+      cb(null, file.orginalname)
+    }
+  })
+});
+
 const Post = require('../models/models').Post;
 
 const bodyParser = require('body-parser')
@@ -11,7 +32,10 @@ router.use(bodyParser.json())
 router.get('/', function(req, res){
   res.send("RUNNING ...")
 })
-router.post('/newPost', function(req, res){
+
+router.post('/newPost', upload.single('file'),
+  { name: 'video', maxCount: 1}]), function(req, res) {
+
   var newPost = new Post(req.body.post)
   newPost.save(function(err, postNew){
     if (err) {

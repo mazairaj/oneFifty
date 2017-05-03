@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { View, StyleSheet, Text, Image} from 'react-native';
-import { Content, Card, CardItem, Right, Thumbnail,Item, Badge, Button, Input} from 'native-base';
+import { Content, Card, CardItem, Right, Thumbnail,Item, Badge, Button, Body, Input} from 'native-base';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/teamPageActions';
 
+var ImagePicker = require('react-native-image-picker');
 var Dimensions = require('Dimensions');
 var { width, height } = Dimensions.get('window');
 
@@ -14,7 +15,9 @@ class CreatePost extends Component{
     super(props)
 
     this.state = {
-      text: ""
+      text: "",
+      photoData: "",
+      photo: null
     }
   }
   post(){
@@ -25,7 +28,7 @@ class CreatePost extends Component{
       date: date.toDateString(),
       profileImg: "",
       postType: "",
-      cardImage: "",
+      cardImage: this.state.photoData._parts[0],
       bodyText: this.state.text
     }
     this.setState({text: ""})
@@ -39,10 +42,47 @@ class CreatePost extends Component{
       })
     }).then(this.props.actions.postedData(post))
     //
-    this.props.socket.emit('post', post)
+    // this.props.socket.emit('post', post)
 
   }
+  photoSelect(){
+    var date = Date.now();
+    //Need to change to something more personalized in the future
+    var imgTitle =  date + '.jpg';
+    ImagePicker.showImagePicker({}, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        let source = { uri: response.uri };
+
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+        this.setState({
+          photo: source
+        });
+      }
+      var formData = new FormData();
+      formData.append('file', {
+        uri: response,
+        type: 'image/jpeg',
+        name:  imgTitle
+      });
+      this.setState({photoData: formData});
+    });
+  }
   render(){
+    console.log('PhotoBITCH', this.state.photo)
+    console.log(this.state.photoData)
     return (
       <Content style={{ paddingLeft: 10, paddingRight: 10,width: width}}>
         <Card>
@@ -51,7 +91,8 @@ class CreatePost extends Component{
               <View style = {{borderBottomColor: 'gray', borderBottomWidth:1}}>
                 <CardItem>
                   <View style={{flexDirection: 'row'}}>
-                    <Button transparent style={{flex:1, padding: 5, justifyContent: 'center', borderRightColor: 'gray', borderRightWidth: 1, borderRadius: 0}}><Text>Photo</Text></Button>
+                    <Button transparent style={{flex:1, padding: 5, justifyContent: 'center', borderRightColor: 'gray', borderRightWidth: 1, borderRadius: 0}}
+                      onPress={this.photoSelect.bind(this)}><Text>Photo</Text></Button>
                     <Button transparent style={{flex:1, padding: 5, justifyContent: 'center', borderRightColor: 'gray', borderRightWidth: 1, borderRadius: 0}}><Text>Workout</Text></Button>
                     <Button transparent style={{flex:1, padding: 5, justifyContent: 'center'}}><Text>More</Text></Button>
                   </View>
@@ -59,6 +100,10 @@ class CreatePost extends Component{
               </View>
             <View style = {{borderBottomColor: 'gray', borderBottomWidth:1}}>
               <CardItem cardBody>
+              <Body>
+              <View>
+              {this.state.photo ? <Image source={this.state.photo} style={{width: 400, height: 400}}/> : null }
+              </View>
                 <View style={{padding: 10, flexDirection:'row'}}>
                 <Thumbnail square size={80} source={require('../../assets/image/Simulator.png')} />
                   <Content>
@@ -69,6 +114,7 @@ class CreatePost extends Component{
                     </Item>
                   </Content>
                 </View>
+              </Body>
               </CardItem>
             </View>
             <CardItem>
