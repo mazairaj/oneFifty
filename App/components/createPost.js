@@ -28,7 +28,7 @@ class CreatePost extends Component{
       date: date.toDateString(),
       profileImg: "",
       postType: "",
-      cardImage: this.state.photoData._parts[0],
+      cardImage: this.state.photoData,
       bodyText: this.state.text
     }
     this.setState({text: ""})
