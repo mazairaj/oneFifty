@@ -32,16 +32,38 @@ class CreatePost extends Component{
       bodyText: this.state.text
     }
     this.setState({text: ""})
-    fetch("https://morning-taiga-46107.herokuapp.com/newPost",{
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        post: post,
-        photo: this.state.photoData
-      })
-    }).then(this.props.actions.postedData(post))
+    if (this.state.photo) {
+      fetch('https://morning-taiga-46107.herokuapp.com/postToS3', {
+         method: 'POST',
+         headers: {
+           'Content-Type': 'multipart/form-data'
+         },
+         body: this.state.photoData
+       })
+       .then(resp => resp.json())
+       .then(resp => {
+         console.log('success upload', resp);
+         return resp.file.location;
+       }).then((photo) => fetch("https://morning-taiga-46107.herokuapp.com/newPost",{
+       method: 'POST',
+       headers: {
+         "Content-Type": "application/json"
+       },
+       body: JSON.stringify({
+         post: Object.assign({}, post, {cardImage: photo} )
+       })
+     })).then(this.props.actions.postedData(post))
+   } else {
+      fetch("https://morning-taiga-46107.herokuapp.com/newPost",{
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          post: post,
+        })
+      }).then(this.props.actions.postedData(post))
+    }
     //
     // this.props.socket.emit('post', post)
 
@@ -78,7 +100,9 @@ class CreatePost extends Component{
         type: 'image/jpeg',
         name:  imgTitle
       });
+      console.log(formData)
       this.setState({photoData: formData});
+    });
   //        fetch('https://morning-taiga-46107.herokuapp.com/postToS3', {
   //    method: 'POST',
   //    headers: {

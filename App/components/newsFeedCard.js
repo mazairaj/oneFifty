@@ -35,7 +35,7 @@ class NewsFeedCard extends Component {
             <View style = {{borderBottomColor: 'gray', borderBottomWidth:1}}>
               <CardItem cardBody>
                 <Body>
-                  {cardProps.cardImg ? <Image source={require('../../assets/image/trainingLog.jpg')} resizeMode="stretch" style={{width:width, height:145, justifyContent:'flex-end', alignItems:'flex-start'}}/> : null }
+                  {cardProps.cardImg ? <Image source={{uri: cardProps.cardImg}} style={{width: 400, height: 400}}/> : null }
                   <View style={{padding: 10}}>
                     <Text>{cardProps.bodyText}</Text>
                   </View>

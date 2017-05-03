@@ -7,7 +7,7 @@ export default function teamPage(state = {
       date: date.toDateString(),
       profileImg: "",
       postType: "",
-      cardImg: '../../assets/image/trainingLog.jpg',
+      cardImg: 'https://one-fifty.s3.amazonaws.com/ac0884c6b5a7bfe44b3b4ace8274833d',
       bodyText: "Hey guys. Just thought you'd wanna checkout out my new workout Log. It's pretty good.",
       likes: [],
       comments: []
@@ -17,7 +17,7 @@ export default function teamPage(state = {
       date: date.toDateString(),
       profileImg: "",
       postType: "",
-      cardImg: '../../assets/image/weights.jpeg',
+      cardImg: 'https://one-fifty.s3.amazonaws.com/ac0884c6b5a7bfe44b3b4ace8274833d',
       bodyText: "Is weigh in still 160.0?",
       likes: [],
       comments: []
@@ -27,7 +27,7 @@ export default function teamPage(state = {
       date: date.toDateString(),
       profileImg: "",
       postType: "",
-      cardImg: '../../assets/image/rugby.jpg',
+      cardImg: 'https://one-fifty.s3.amazonaws.com/ac0884c6b5a7bfe44b3b4ace8274833d',
       bodyText: "Team, sprints just informed me that the oficial lightweight category has been converted to Rugby. Suit up tomorrow morning at 7am.",
       likes: [],
       comments: []
