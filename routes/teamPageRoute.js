@@ -8,6 +8,9 @@ const bodyParser = require('body-parser')
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json())
 
+router.get('/', function(req, res){
+  res.send("RUNNING ...")
+})
 router.post('/newPost', function(req, res){
   var newPost = new Post(req.body.post)
   newPost.save(function(err, postNew){
