@@ -30,7 +30,7 @@ router.get('/', function(req, res){
 })
 
 router.post('/newPost', upload.single('file'), function(req, res) {
-  console.log("REQD", req)
+  console.log("REQD", req.body)
   var newPost = new Post(req.body.post)
   newPost.save(function(err, postNew){
     if (err) {
