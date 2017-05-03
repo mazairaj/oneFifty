@@ -12,7 +12,7 @@ var upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'one-fifty',
-    key: function (req, file, cb) {
+    Key: function (req, file, cb) {
       cb(null, file.orginalname)
     }
   })

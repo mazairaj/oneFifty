@@ -71,7 +71,15 @@ class CreatePost extends Component{
         this.setState({
           photo: source
         });
-           fetch('https://morning-taiga-46107.herokuapp.com/postToS3', {
+      }
+      var formData = new FormData();
+      formData.append('file', {
+        uri: response.uri,
+        type: 'image/jpeg',
+        name:  imgTitle
+      });
+      this.setState({photoData: formData});
+         fetch('https://morning-taiga-46107.herokuapp.com/postToS3', {
      method: 'POST',
      headers: {
        'Content-Type': 'multipart/form-data'
@@ -84,14 +92,6 @@ class CreatePost extends Component{
      photo = resp.file.location;
    })
    .catch(resp => console.log('err upload', resp));
-      }
-      var formData = new FormData();
-      formData.append('file', {
-        uri: response.uri,
-        type: 'image/jpeg',
-        name:  imgTitle
-      });
-      this.setState({photoData: formData});
     });
   }
   render(){
