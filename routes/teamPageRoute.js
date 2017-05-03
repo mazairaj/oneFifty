@@ -12,9 +12,6 @@ var upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: 'one-fifty',
-    metadata: function (req, file, cb) {
-      cb(null, {fieldName: file.fieldname});
-    },
     key: function (req, file, cb) {
       // console.log('key', file);
       cb(null, file.orginalname)

@@ -73,7 +73,7 @@ class CreatePost extends Component{
       }
       var formData = new FormData();
       formData.append('file', {
-        uri: response,
+        uri: response.uri,
         type: 'image/jpeg',
         name:  imgTitle
       });
