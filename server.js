@@ -5,9 +5,13 @@ const path = require('path');
 const app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-server.listen(8080, () => console.log('listening on 8080'));
 
-io.on('connection', (socket) => {
+var port = process.env.PORT || 8080;
+server.listen(port, function() {
+  console.log('Express started. Listening on %s', port);
+});
+
+io.on('connected', (socket) => {
   console.log('A client just joined on: ', socket.id)
 })
 const bodyParser = require('body-parser')
@@ -31,8 +35,3 @@ app.use('/', testRoute);
 app.use('/', calendarRoute);
 app.use('/', workoutRoute);
 app.use('/', teamPageRoute);
-
-var port = process.env.PORT || 8080;
-server.listen(port, function() {
-  console.log('Express started. Listening on %s', port);
-});
