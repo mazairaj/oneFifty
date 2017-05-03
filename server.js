@@ -32,26 +32,6 @@ app.use('/', calendarRoute);
 app.use('/', workoutRoute);
 app.use('/', teamPageRoute);
 
-const Post = require('./models/models').Post;
-
-io.on('post', (post) => {
-  // Save the message document in the `messages` collection.
-  var newPost = new Post({
-    ...post
-  })
-  newPost.save(function(err, postNew){
-    if (err) {
-      console.log('error has occur: ',  err)
-    } else {
-      console.log('Nice, you created a file')
-      console.log(postNew);
-    }
-  }).then (socket.broadcast.emit('post', post){
-    console.log("Post", post)
-  })
-
-});
-
 var port = process.env.PORT || 8080;
 server.listen(port, function() {
   console.log('Express started. Listening on %s', port);
