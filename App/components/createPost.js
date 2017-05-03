@@ -71,6 +71,19 @@ class CreatePost extends Component{
         this.setState({
           photo: source
         });
+           fetch('https://morning-taiga-46107.herokuapp.com/postToS3', {
+     method: 'POST',
+     headers: {
+       'Content-Type': 'multipart/form-data'
+     },
+     body: formData
+   })
+   .then(resp => resp.json())
+   .then(resp => {
+     console.log('success upload', resp);
+     photo = resp.file.location;
+   })
+   .catch(resp => console.log('err upload', resp));
       }
       var formData = new FormData();
       formData.append('file', {

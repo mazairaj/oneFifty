@@ -13,7 +13,6 @@ var upload = multer({
     s3: s3,
     bucket: 'one-fifty',
     key: function (req, file, cb) {
-      console.log('keykeykey', file);
       cb(null, file.orginalname)
     }
   })
@@ -51,5 +50,11 @@ router.get('/populatePosts', function(req, res){
       res.send(posts)
     })
 })
+
+router.post('/postToS3', upload.single('file'), function(req, res) {
+  console.log("In here bitch!");
+  console.log("Files", req.file)
+  res.json({file: req.file});
+});
 
 module.exports = router
