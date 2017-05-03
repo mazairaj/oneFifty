@@ -9,6 +9,9 @@ var io = require('socket.io')(server);
 
 io.on('connection', (socket) => {
   console.log('A client just joined on: ', socket.id)
+  socket.on('post', (post) => {
+    socket.broadcast.emit('post', post)
+  })
 })
 const bodyParser = require('body-parser')
 
