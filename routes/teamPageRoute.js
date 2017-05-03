@@ -13,7 +13,7 @@ var upload = multer({
     s3: s3,
     bucket: 'one-fifty',
     key: function (req, file, cb) {
-      // console.log('key', file);
+      console.log('keykeykey', file);
       cb(null, file.orginalname)
     }
   })
