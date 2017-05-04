@@ -94,7 +94,9 @@ router.post('/postWorkoutSpreadsheet', function(req, res){
     },
     function(callback) {
       console.log("<<<<<<<< Inside working cells >>>>>>")
-      sheet.setHeaderRow(['name', 'split1', 'split2', 'split3', 'weight'], function(err, done){
+      var metrics = Object.keys(data);
+      console.log("METRICS", metrics)
+      sheet.setHeaderRow(metrics, function(err, done){
         if (err) {
           console.log(err)
         } else {
