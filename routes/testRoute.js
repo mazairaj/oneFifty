@@ -135,13 +135,7 @@ router.post('/postWorkoutSpreadsheet', function(req, res){
     },
     function(callback) {
       console.log('ADD ROW')
-      sheet.addRow({
-        "name" : data.name,
-        "split1": data.piece1,
-        "split2": data.piece2,
-        "split3": data.piece3,
-        "weight": data.weight
-      }, function(err, rows){
+      sheet.addRow(data, function(err, rows){
         if (err){
           console.log(err)
         } else {
