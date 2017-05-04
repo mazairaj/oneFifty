@@ -107,7 +107,7 @@ router.post('/postWorkoutSpreadsheet', function(req, res){
     },
     function(callback){
       console.log("In Get Cells")
-      sheet.getRows({offset: 0}, function(err, rows){
+      sheet.getRows(function(err, rows){
         if (err) {
           console.log("Error: ", err)
         } else {
@@ -164,7 +164,7 @@ router.get('/createTeamWorkout', function(req, res){
     },
     function(callback){
       console.log("In Get Cells")
-      sheet.getRows(function(err, rows){
+      sheet.getRows({offset: 0}, function(err, rows){
         console.log(rows)
         res.send(rows)
         callback(null, 'finished')
