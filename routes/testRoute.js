@@ -173,8 +173,10 @@ router.get('/createTeamWorkout', function(req, res){
         callback(null, rows)
       })
     },
-    function(callback){
+    function(callback, rows){
       console.log(rows)
+      res.send(rows)
+      callback(null, 'finished')
     }
   ])
 })
