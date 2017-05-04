@@ -172,6 +172,9 @@ router.get('/createTeamWorkout', function(req, res){
         rows = rows;
       })
     }
-  ]).then(() => res.send(rows))
+  ]).then(() => {
+    console.log(rows)
+    res.send(rows)
+  })
 })
 module.exports = router;
