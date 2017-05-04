@@ -1,5 +1,6 @@
 //Actions associated with Calendar Page
 var _ = require('underscore')
+var idArray;
 export function selectDay(date) {
   //Pull the workouts associated witha  certain day. Have them appear on a card Only visible
   //when a day is selected
@@ -86,7 +87,7 @@ export function createTeamWorkout(workoutName, date){
       return workoutsMongo
     })
     .then((workoutsMongo) => {
-      var idArray = [];
+      idArray = [];
       workoutsMongo.forEach(workout=> {
         fetch("https://morning-taiga-46107.herokuapp.com/postWorkoutMongo",{
           method: 'POST',
@@ -109,7 +110,9 @@ export function createTeamWorkout(workoutName, date){
           idArray.push(workout._id);
         })
       })
-      console.log("IDS", idArray)
+    })
+    .then({
+      
     })
     .catch((err) => {
       console.log('error in populatedWorkouts -> ', err)
