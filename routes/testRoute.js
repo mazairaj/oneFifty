@@ -107,7 +107,7 @@ router.post('/postWorkoutSpreadsheet', function(req, res){
     },
     function(callback){
       console.log("In Get Cells")
-      sheet.getRows(function(err, rows){
+      sheet.getRows({offset: 0}, function(err, rows){
         if (err) {
           console.log("Error: ", err)
         } else {
@@ -148,7 +148,6 @@ router.post('/postWorkoutSpreadsheet', function(req, res){
   ])
 })
 router.get('/createTeamWorkout', function(req, res){
-  var data = req.body.workoutData
   var rows;
   console.log("This is REQd", data)
   //async.series calls each function asynchronously in sequntial order
