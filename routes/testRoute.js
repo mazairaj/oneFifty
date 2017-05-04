@@ -149,7 +149,7 @@ router.post('/postWorkoutSpreadsheet', function(req, res){
 })
 router.get('/createTeamWorkout', function(req, res){
   var rows;
-  console.log("This is REQd", data)
+
   //async.series calls each function asynchronously in sequntial order
   async.series([
     function(callback) {
