@@ -58,7 +58,10 @@ class CreatePost extends Component{
          })
        })
        return post
-     }).then((post) => this.props.actions.postedData(post))
+     }).then((post) => {
+       this.props.actions.postedData(post)
+       this.props.socket.emit('post', post)
+     })
    } else {
      console.log("Not in S3")
       fetch("https://morning-taiga-46107.herokuapp.com/newPost",{
@@ -69,11 +72,11 @@ class CreatePost extends Component{
         body: JSON.stringify({
           post: post,
         })
-      }).then(this.props.actions.postedData(post))
+      }).then((post) => {
+        this.props.actions.postedData(post)
+        this.props.socket.emit('post', post)
+      })
     }
-    //
-    // this.props.socket.emit('post', post)
-
   }
   photoSelect(){
     var date = Date.now();
