@@ -51,6 +51,26 @@ export function getMonthData(month){
     });
   };
 }
+export function createTeamWorkout(){
+  //Populate all of the workouts for a particular month
+  return dispatch => {
+    fetch("https://morning-taiga-46107.herokuapp.com/createTeamWorkout", {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((response) => {
+      return response.json()})
+    .then((responseJson) => {
+      var workouts = responseJson
+      console.log("This is the one to look at", workouts)
+    })
+    .catch((err) => {
+      console.log('error in populatedWorkouts -> ', err)
+    });
+  };
+}
 function populateMonthData(workouts) {
   console.log("actions", workouts)
   return {

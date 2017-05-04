@@ -6,6 +6,10 @@ import { Icon } from 'react-native-elements'
 import Calendar from 'react-native-calendar'
 import Swiper from 'react-native-swiper';
 
+// import FontAwesome from "react-native-vector-icons/Fonts/FontAwesome.ttf"
+// import IonIcons from "react-native-vector-icons/Fonts/Ionicons.ttf"
+// import MaterialIcons from "react-native-vector-icons/Fonts/MaterialIcons.ttf"
+
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/calendarActions';
 
@@ -80,8 +84,12 @@ class WorkoutCalendar extends Component {
   }
   selectWorkout(val){
     const {navigate} =this.props.navigation
-    console.log("VAL", this.props)
-    navigate("WorkoutData", val)
+    // console.log("VAL", this.props)
+    navigate("WorkoutData", {...val})
+  }
+  postTeamWorkout(){
+    const { actions, calendarState } = this.props;
+    actions.createTeamWorkout()
   }
   render(){
     const {actions, calendarState} = this.props;
@@ -171,9 +179,9 @@ class WorkoutCalendar extends Component {
                               <Text>{val.workoutName}</Text>
                               <Text>{val.athleteName}</Text>
                             </Body>
-                            <Right>
+                            <Right style={{justifyContent: 'center'}}>
                               <TouchableOpacity onPress={()=>console.log("Pressed")}>
-                                <Image source={require('../../assets/image/chat.png')} />
+                              <Icon  name='rowing' />
                               </TouchableOpacity>
                             </Right>
                           </ListItem>
@@ -211,8 +219,8 @@ class WorkoutCalendar extends Component {
                                   <Text>{val.athleteName}</Text>
                                 </Body>
                                 <TouchableOpacity onPress={this.selectWorkout.bind(this, val)}>
-                                  <Right>
-                                    <Image source={require('../../assets/image/chat.png')} />
+                                  <Right style={{justifyContent: 'center'}}>
+                                  <Icon  name='rowing' />
                                   </Right>
                                 </TouchableOpacity>
                               </ListItem>
@@ -250,7 +258,9 @@ class WorkoutCalendar extends Component {
                                     <Text>{val.workoutName}</Text>
                                     <Text>{val.athleteName}</Text>
                                   </Body>
-                                    <Image source={require('../../assets/image/chat.png')} />
+                                    <Right style={{justifyContent: 'center'}}>
+                                    <Icon  name='rowing' />
+                                    </Right>
                                 </ListItem>
                               </TouchableOpacity>
                             }/>
@@ -263,6 +273,18 @@ class WorkoutCalendar extends Component {
               </View>
               </Swiper>
             </View>) : null}
+            <Button style={{
+              height: 36,
+              margin: 10,
+              backgroundColor: '#48BBEC',
+              borderColor: 'black',
+              borderWidth: 1,
+              borderRadius: 8,
+              marginBottom: 10,
+              alignSelf: 'stretch',
+              justifyContent: 'center'
+            }}
+            onPress={this.postTeamWorkout.bind(this)}><Text>Post Team Workout</Text></Button>
       </View>
     )
   }

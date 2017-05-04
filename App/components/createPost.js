@@ -59,7 +59,7 @@ class CreatePost extends Component{
        })
      }).then((post) => {
        this.props.actions.postedData(post)
-       this.props.socket.emit('post', post)
+      //  this.props.socket.emit('post', post)
      })
    } else {
      console.log("Not in S3")
@@ -75,7 +75,7 @@ class CreatePost extends Component{
       .then(resp => resp.json())
       .then(post => {
         this.props.actions.postedData(post)
-        this.props.socket.emit('post', post)
+        // this.props.socket.emit('post', post)
       })
     }
   }
@@ -111,13 +111,10 @@ class CreatePost extends Component{
         type: 'image/jpeg',
         name:  imgTitle
       });
-      console.log(formData)
       this.setState({photoData: formData});
     });
   }
   render(){
-    console.log('PhotoBITCH', this.state.photo)
-    console.log(this.state.photoData)
     return (
       <Content style={{ paddingLeft: 10, paddingRight: 10,width: width}}>
         <Card>

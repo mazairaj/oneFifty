@@ -150,42 +150,30 @@ router.post('/postWorkoutSpreadsheet', function(req, res){
     }
   ])
 })
-
-router.post('/createWorkout', function(req, res){
-  var workoutTitle = req.body.title;
-  var athleteName = req.body.athleteName;
-  var metricName1 = req.body.metricName1;
-  var metricName2 = req.body.metricName2;
-  var value1 = req.body.value1;
-  var value2 = req.body.value2;
-
-  var newWorkout = new Workout({
-    workoutName: workoutTitle,
-    athleteName: athleteName,
-    workoutMetrics: [
-      {
-        name: metricName1,
-        value: value1
-      },
-      {
-        name: metricName2,
-        value: value2
-      }
-    ]
-  })
-
-  newWorkout.save(function(err, workoutNew){
-    if (err) {
-      console.log('error has occur: ',  err)
-    } else {
-      console.log('Nice, you created a file')
-      console.log(workoutNew);
-    }
-
-  }).then(() => {
-    var metrics = newWorkout.metricsObject;
-    console.log('Metrics', (metrics.split * 2.23))
-    res.send(newWorkout.metricsObject)
-  })
-});
+router.get('/createTeamWorkout', function(req, res){
+  var data = req.body.workoutData
+  var rows;
+  console.log("This is REQd", data)
+  //async.series calls each function asynchronously in sequntial order
+  async.series([
+    function(callback) {
+      doc.getInfo(function(err, info) {
+        console.log("<<<<<<<< Inside Get INfo >>>>>>")
+        console.log('Loaded doc: '+info.title+' by '+info.author.email);
+        sheet = info.worksheets[0];
+        console.log('sheet 1: '+sheet.title+' '+sheet.rowCount+'x'+sheet.colCount);
+        console.log("INFO", info)      // do some stuff ...
+        callback(null, 'one');
+      })
+    },
+    function(callback){
+      console.log("In Get Cells")
+      sheet.getRows(function(err, rows){
+        callback(null, rows);
+      })
+    },
+    res.send(rows)
+  ])
+  res.send
+})
 module.exports = router;

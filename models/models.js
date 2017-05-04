@@ -19,7 +19,11 @@ var workoutSchema = new mongoose.Schema({
     }
   ]
 })
-
+var teamWorkoutSchema = new mongoose.Schema({
+  workoutName: String,
+  date: String,
+  workouts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Workout'}]
+})
 var workoutMetricsSchema = new mongoose.Schema({
   workoutName: String,
   workoutMetrics: [

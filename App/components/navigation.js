@@ -15,7 +15,9 @@ export const Navigation = StackNavigator({
 //Navigation for calendar Tab
 export const CalNav = StackNavigator({
   Calendar: {screen: WorkoutCalendar},
-  WorkoutData: {screen: WorkoutData}
+  WorkoutData: {
+    screen: WorkoutData,
+  }
 })
 
 export const WorkoutHistNav = StackNavigator({
