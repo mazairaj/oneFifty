@@ -16,7 +16,7 @@ class CreatePost extends Component{
 
     this.state = {
       text: "",
-      photoData: "",
+      photoData: null,
       photo: null
     }
   }
@@ -31,7 +31,8 @@ class CreatePost extends Component{
       cardImg: "",
       bodyText: this.state.text
     }
-    this.setState({text: ""})
+    var photoData = this.state.photoData;
+    this.setState({text: "", photo: null, photoData: null})
     if (this.state.photo) {
       console.log("IN S3")
       fetch('https://morning-taiga-46107.herokuapp.com/postToS3', {
@@ -39,21 +40,25 @@ class CreatePost extends Component{
          headers: {
            'Content-Type': 'multipart/form-data'
          },
-         body: this.state.photoData
+         body: photoData
        })
        .then(resp => resp.json())
        .then(resp => {
          console.log('success upload', resp);
          return resp.file.location;
-       }).then((photo) => fetch("https://morning-taiga-46107.herokuapp.com/newPost",{
-       method: 'POST',
-       headers: {
-         "Content-Type": "application/json"
-       },
-       body: JSON.stringify({
-         post: Object.assign({}, post, {cardImg: photo} )
+       }).then((photo) => {
+         post = Object.assign({}, post, {cardImg: photo} )
+         fetch("https://morning-taiga-46107.herokuapp.com/newPost",{
+         method: 'POST',
+         headers: {
+           "Content-Type": "application/json"
+         },
+         body: JSON.stringify({
+           post: post
+         })
        })
-     })).then(this.props.actions.postedData(post))
+       return post
+     }).then((post) => this.props.actions.postedData(post))
    } else {
      console.log("Not in S3")
       fetch("https://morning-taiga-46107.herokuapp.com/newPost",{
