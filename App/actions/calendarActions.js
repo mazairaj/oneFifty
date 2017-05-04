@@ -66,18 +66,18 @@ export function createTeamWorkout(workoutName, date){
     .then((responseJson) => {
       var workouts = responseJson
       console.log("This is the one to look at", workouts)
-      var workoutsMongo = workouts.map((workout) => {
-        var keys = Object.keys(workout)
-        console.log(keys)
-        var workoutObj = Object.assign({}, {
-          athleteName: workout.name,
-          weight: workout.weight,
-          workoutName: workoutName,
-          date: date
-        },
-        ...workoutMetrics
-      )
-      })
+      // var workoutsMongo = workouts.map((workout) => {
+      //   var keys = Object.keys(workout)
+      //   console.log(keys)
+      //   var workoutObj = Object.assign({}, {
+      //     athleteName: workout.name,
+      //     weight: workout.weight,
+      //     workoutName: workoutName,
+      //     date: date
+      //   },
+      //   ...workoutMetrics
+      // )
+      //})
     })
     .catch((err) => {
       console.log('error in populatedWorkouts -> ', err)
