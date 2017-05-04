@@ -57,7 +57,6 @@ class CreatePost extends Component{
            post: post
          })
        })
-       return post
      }).then((post) => {
        this.props.actions.postedData(post)
        this.props.socket.emit('post', post)
@@ -72,7 +71,9 @@ class CreatePost extends Component{
         body: JSON.stringify({
           post: post,
         })
-      }).then((post) => {
+      })
+      .then(resp => resp.json())
+      .then(post => {
         this.props.actions.postedData(post)
         this.props.socket.emit('post', post)
       })

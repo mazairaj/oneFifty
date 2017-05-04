@@ -38,7 +38,7 @@ router.post('/newPost', function(req, res) {
       console.log('Nice, you created a file')
       console.log(postNew);
     }
-  }).then(res.send("New Post"))
+  }).then(res.send(newPost))
 });
 
 router.get('/populatePosts', function(req, res){

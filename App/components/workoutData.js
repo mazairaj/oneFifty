@@ -13,9 +13,12 @@ class WorkoutData extends Component {
     const {params} = this.props.navigation.state
     console.log("HEOTEOTEOH", params)
     return (
-      <View>
-        <Text>{params.athleteName}</Text>
-        <Text>{params.workoutName}</Text>
+      <View style={{flex: 1, backgroundColor: 'white'}}>
+        <View style={{flex:2, backgroundColor: "#779ECB"}}>
+          <Thumbnail style={{marginTop: 15, marginLeft: 10, height: 80, width: 80, borderRadius: 40, alignItems: 'flex-start'}} source={require('../../assets/image/Simulator.png')} />
+        </View>
+        <View style={{flex:3, backgroundColor: "transparent"}}>
+        </View>
       </View>
     )
   }
