@@ -41,7 +41,7 @@ var postSchema = new mongoose.Schema({
   date: String,
   profileImg: String,
   postType: String,
-  cardImage: String,
+  cardImg: String,
   bodyText: String,
   likes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Athlete'}],
   //comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]

@@ -14,6 +14,7 @@ class NewsFeedCard extends Component {
   }
   render(){
     const {cardProps} = this.props;
+    console.log(cardProps)
     return(
         <Card style={{flex:0}}>
           <Content

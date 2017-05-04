@@ -28,7 +28,7 @@ class CreatePost extends Component{
       date: date.toDateString(),
       profileImg: "",
       postType: "",
-      cardImage: "",
+      cardImg: "",
       bodyText: this.state.text
     }
     this.setState({text: ""})
@@ -51,7 +51,7 @@ class CreatePost extends Component{
          "Content-Type": "application/json"
        },
        body: JSON.stringify({
-         post: Object.assign({}, post, {cardImage: photo} )
+         post: Object.assign({}, post, {cardImg: photo} )
        })
      })).then(this.props.actions.postedData(post))
    } else {
