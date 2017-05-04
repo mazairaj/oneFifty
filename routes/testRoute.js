@@ -9,6 +9,7 @@ const Workout = require('../models/models').Workout;
 var GoogleSpreadsheet = require('google-spreadsheet');
 var doc = new GoogleSpreadsheet('1EQivJ6AIqFxCCEvJVqw-34W3llXdrE4Qi9k_mjJgjco');
 var sheet;
+var metrics;
 var creds = require('../My_Project_Cred');
 var async = require('async')
 
@@ -94,7 +95,7 @@ router.post('/postWorkoutSpreadsheet', function(req, res){
     },
     function(callback) {
       console.log("<<<<<<<< Inside working cells >>>>>>")
-      var metrics = Object.keys(data);
+      metrics = Object.keys(data);
       metrics = [metrics[0], ...metrics.slice(2, metrics.length)]
       console.log("METRICS", metrics)
       sheet.setHeaderRow(metrics, function(err, done){
@@ -166,7 +167,7 @@ router.get('/createTeamWorkout', function(req, res){
       console.log("In Get Cells")
       sheet.getRows(function(err, rows){
         console.log(rows)
-        res.send(rows:rows, )
+        res.send(rows )
         callback(null, 'finished')
       })
     }
