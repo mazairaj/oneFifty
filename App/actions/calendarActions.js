@@ -66,18 +66,50 @@ export function createTeamWorkout(workoutName, date){
     .then((responseJson) => {
       var workouts = responseJson
       console.log("This is the one to look at", workouts)
-      // var workoutsMongo = workouts.map((workout) => {
-      //   var keys = Object.keys(workout)
-      //   console.log(keys)
-      //   var workoutObj = Object.assign({}, {
-      //     athleteName: workout.name,
-      //     weight: workout.weight,
-      //     workoutName: workoutName,
-      //     date: date
-      //   },
-      //   ...workoutMetrics
-      // )
-      //})
+      var workoutsMongo = workouts.map((workout) => {
+        var keys = Object.keys(workout)
+        keys = keys.slice(6, keys.length)
+        var workoutMetrics = [];
+        keys.forEach(key => {
+          workoutMetrics.push({name: key, value: workout[key]})
+        })
+        var workoutObj = Object.assign({}, {
+          athleteName: workout.name,
+          weight: workout.weight,
+          workoutName: workoutName,
+          date: date,
+          workoutMetrics: workoutMetrics
+        })
+        console.log(workoutObj)
+        return workoutObj
+      })
+      return workoutsMongo
+    })
+    .then((workoutsMongo) => {
+      var idArray = [];
+      workoutsMongo.forEach(workout=> {
+        fetch("https://morning-taiga-46107.herokuapp.com/postWorkoutMongo",{
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: workout.athleteName,
+            workoutName: workout.workoutName,
+            date: workout.date,
+            weight: workout.weight,
+            metricObjects: workout.metricObjects
+          })
+        })
+        .then((response) => {
+          return response.json()})
+        .then((responseJson) => {
+          var workout = responseJson
+          console.log("This is the one to look at", workout)
+          idArray.push(workout._id);
+        })
+      })
+      console.log("IDS", idArray)
     })
     .catch((err) => {
       console.log('error in populatedWorkouts -> ', err)

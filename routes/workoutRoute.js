@@ -23,7 +23,7 @@ router.post('/postWorkoutMongo', function(req, res){
       console.log('error has occur: ',  err)
     } else {
       console.log('Nice, you created a file')
-      console.log(workoutNew);
+      res.send(workoutNew);
     }
   })
 });

@@ -89,7 +89,8 @@ class WorkoutCalendar extends Component {
   }
   postTeamWorkout(){
     const { actions, calendarState } = this.props;
-    actions.createTeamWorkout()
+    console.log(calendarState)
+    actions.createTeamWorkout("2K", calendarState.date.toDateString())
   }
   render(){
     const {actions, calendarState} = this.props;
