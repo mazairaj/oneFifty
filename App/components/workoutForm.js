@@ -83,8 +83,7 @@ export default class TeamManager extends Component {
 
     this.setState({query: "", value: {weight: 150}});
     if(value) {
-      var copy = Object.assign({}, value);
-      copy["name"] = name;
+      var copy = Object.assign({}, {"name": name}, value);
       console.log("COPY", copy)
 
       fetch("https://morning-taiga-46107.herokuapp.com/postWorkoutSpreadsheet", {
