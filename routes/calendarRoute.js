@@ -64,7 +64,7 @@ router.post('/getMonth', function(req, res){
   })
 })
 router.post('/findTeamWorkout', function(req, res) {
-  Workout.findOne({ "date": date})
+  Workout.findOne({ "date": req.body.date})
   .populate('workouts')
   .exec(function(err, teamWorkout){
     if (err) {
