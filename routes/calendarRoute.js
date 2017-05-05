@@ -74,6 +74,6 @@ router.post('/findTeamWorkout', function(req, res) {
       res.send(teamWorkout)
     }
   })
-}
+})
 
 module.exports = router;
