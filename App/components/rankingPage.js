@@ -82,9 +82,6 @@ class WorkoutRanking extends Component {
         <View style={{flex:3, backgroundColor: 'transparent'}}>
           <Text style={{textAlign:'center', marginTop: 10, fontSize:30, textDecorationLine: 'underline'}}>{params.date}</Text>
           <Text style={{marginTop: 15, marginLeft: 20, fontSize: 25}}>{params.workoutName}:</Text>
-          <View style={{flexDirection: 'row'}}>
-            {createTabBar}
-          </View>
           <Card style={{flex:0}}>
               <View>
                 <CardItem cardBody>
