@@ -60,7 +60,7 @@ router.post('/getMonth', function(req, res){
         dateCopy.push(workout);
         monthWorkouts[date - 1] = dateCopy;
       })
-      res.send({monthWorkouts: monthWorkouts})
+      res.send(monthWorkouts)
   })
 })
 router.post('/findTeamWorkout', function(req, res) {
