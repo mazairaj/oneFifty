@@ -21,7 +21,7 @@ class NewsFeedCard extends Component {
             horizontal = {false}>
               <View style = {{borderBottomColor: 'gray', borderBottomWidth:1}}>
                 <CardItem header>
-                <Thumbnail style={{marginTop: 5, marginRight: 10, height: 36, width: 36, borderRadius: 18}} source={require('../../assets/image/Simulator.png')} />
+                <Thumbnail style={{marginTop: 5, marginRight: 10, height: 36, width: 36, borderRadius: 18}} source={require('../../assets/image/Jasper.jpg')} />
                   <Body>
                     <View style={{justifyContent: 'center', marginTop:5}}>
                     <Text>{cardProps.name}</Text>

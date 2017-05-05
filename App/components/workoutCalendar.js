@@ -94,6 +94,15 @@ class WorkoutCalendar extends Component {
     actions.createTeamWorkout("2K", calendarState.date.toDateString())
   }
   selectTeamWorkout(workouts, workoutName, date){
+    var imgs = ['https://scontent.fsnc1-2.fna.fbcdn.net/v/t1.0-9/18157726_10212398202333370_7410206059461750311_n.jpg?oh=67d5fc84421179bc233db036a4ff8fc4&oe=597B0D20', 'https://scontent.fsnc1-2.fna.fbcdn.net/v/t1.0-9/15355751_10207915944518305_4209451001268897569_n.jpg?oh=885bd3286a077c0b4c772616b59082bd&oe=59BE0975', 'https://scontent.fsnc1-2.fna.fbcdn.net/v/t1.0-9/12439023_10206114395882164_3964247135252667796_n.jpg?oh=f3ca694d5c29666127ad5c348b3caca6&oe=5979CC62', 'https://scontent.fsnc1-2.fna.fbcdn.net/v/t1.0-9/13659104_10208680207936419_3237701144618357978_n.jpg?oh=97971221b8129a6217ea74db3de734df&oe=59BB5B5F']
+    var i = 0
+    var workouts = workouts.map(workout => {
+      var copy = Object.assign({}, workout, {img: imgs[i]})
+      i++;
+      console.log(copy)
+      return copy;
+    })
+    console.log("THIS ONE STUPID", workouts)
     const {navigate} =this.props.navigation
     // console.log("VAL", this.props)
     navigate("WorkoutRanking", {workouts:[...workouts], workoutName:workoutName, date: date })

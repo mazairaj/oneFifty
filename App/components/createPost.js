@@ -137,7 +137,7 @@ class CreatePost extends Component{
               {this.state.photo ? <Image source={this.state.photo} style={{width: 400, height: 400}}/> : null }
               </View>
                 <View style={{padding: 10, flexDirection:'row'}}>
-                <Thumbnail square size={80} source={require('../../assets/image/Simulator.png')} />
+                <Thumbnail square size={80} source={require('../../assets/image/julian.jpg')} />
                   <Content>
                     <Item style={{marginLeft: 10, borderColor: 'gray', borderWidth: 1}} >
                       <Input placeholder='Bye Felicia!' ref= {(el) => { this.text = el }}

@@ -25,7 +25,7 @@ class WorkoutData extends Component {
         <View style={{flex:1, backgroundColor: "#779ECB"}}>
           <View style= {{flexDirection: 'row'}}>
             <View style ={{flex: 3}}>
-              <Thumbnail style={{marginTop: 15, marginLeft: 10, marginBottom: 10,height: 80, width: 80, borderRadius: 40, justifyContent: 'flex-start'}} source={require('../../assets/image/Simulator.png')} />
+              <Thumbnail style={{marginTop: 15, marginLeft: 10, marginBottom: 10,height: 80, width: 80, borderRadius: 40, justifyContent: 'flex-start'}} source={{uri: params.img}} />
               <Text style = {{fontSize: 15, textAlign: 'center'}}>{params.athleteName}</Text>
             </View>
             <View style={{margin: 15, flex: 7}}>
