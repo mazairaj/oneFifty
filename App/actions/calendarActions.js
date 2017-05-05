@@ -1,6 +1,5 @@
 //Actions associated with Calendar Page
 var _ = require('underscore')
-var idArray;
 export function selectDay(date) {
   //Pull the workouts associated witha  certain day. Have them appear on a card Only visible
   //when a day is selected
@@ -45,10 +44,10 @@ export function getMonthData(month){
       return response.json()})
     .then((responseJson) => {
       console.log(responseJson)
-      // var monthWorkouts = responseJson.monthWorkouts;
-      // var teamWorkouts = responseJson.teamWorkouts;
-      // console.log("This is the one to look at", monthWorkouts)
-      // dispatch(populateMonthData(monthWorkouts))
+      var monthWorkouts = responseJson.monthWorkouts;
+      var teamWorkouts = responseJson.teamWorkouts;
+      console.log("This is the one to look at", monthWorkouts)
+      dispatch(populateMonthData(monthWorkouts))
       // dispatch(populateTeamWorkouts(teamWorkouts))
     })
     .catch((err) => {
@@ -90,32 +89,33 @@ export function createTeamWorkout(workoutName, date){
       return workoutsMongo
     })
     .then((workoutsMongo) => {
-      idArray = [];
-      workoutsMongo.forEach(workout=> {
-        fetch("https://morning-taiga-46107.herokuapp.com/postWorkoutMongo",{
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            name: workout.athleteName,
-            workoutName: workout.workoutName,
-            date: workout.date,
-            weight: workout.weight,
-            metricObjects: workout.metricObjects
+      var promises = [];
+      workoutsMongo.forEach(workout => {
+        promises.push(
+          fetch("https://morning-taiga-46107.herokuapp.com/postWorkoutMongo",{
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              name: workout.athleteName,
+              workoutName: workout.workoutName,
+              date: workout.date,
+              weight: workout.weight,
+              metricObjects: workout.metricObjects
+            })
           })
-        })
-        .then((response) => {
-          return response.json()})
-        .then((responseJson) => {
-          var workout = responseJson
-          console.log("This is the one to look at", workout)
-          idArray.push(workout._id);
-        })
+        )
       })
-    })
-    .then( () => {
-      console.log('trying to post TeamWorkout')
+      return Promise.all(promises)
+
+    }).then(almostWorkoutArray => {
+      return Promise.all(almostWorkoutArray.map(almostWorkout => almostWorkout.json()));
+    }).then(workoutArray => {
+      console.log("workoutArray", workoutArray)
+      return workoutArray.map(workout => workout._id);
+    }).then( idArray => {
+      console.log("IDARRAY", idArray)
       fetch("https://morning-taiga-46107.herokuapp.com/postTeamWorkout",{
         method: 'POST',
         headers: {
@@ -124,7 +124,7 @@ export function createTeamWorkout(workoutName, date){
         body: JSON.stringify({
           workoutName: workoutName,
           date: date,
-          workouts: idArray
+          idArray: idArray
         })
       })
     })
