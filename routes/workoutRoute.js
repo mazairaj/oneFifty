@@ -16,7 +16,7 @@ router.post('/postWorkoutMongo', function(req, res){
     athleteName: req.body.name,
     date: req.body.date,
     weight: req.body.weight,
-    workoutMetrics: req.body.metricObjects,
+    workoutMetrics: req.body.workoutMetrics,
 
   })
   newWorkout.save(function(err, workoutNew){

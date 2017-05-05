@@ -167,7 +167,7 @@ router.get('/createTeamWorkout', function(req, res){
       console.log("In Get Cells")
       sheet.getRows(function(err, rows){
         console.log(rows)
-        res.send(rows )
+        res.send(rows)
         callback(null, 'finished')
       })
     }

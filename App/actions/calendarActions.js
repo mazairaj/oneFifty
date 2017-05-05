@@ -85,10 +85,12 @@ export function createTeamWorkout(workoutName, date){
         return workoutObj
       })
       return workoutsMongo
+      console.log(workoutsMongo)
     })
     .then((workoutsMongo) => {
       var promises = [];
       workoutsMongo.forEach(workout => {
+        console.log(workout)
         promises.push(
           fetch("https://morning-taiga-46107.herokuapp.com/postWorkoutMongo",{
             method: 'POST',
@@ -100,7 +102,7 @@ export function createTeamWorkout(workoutName, date){
               workoutName: workout.workoutName,
               date: workout.date,
               weight: workout.weight,
-              metricObjects: workout.metricObjects
+              workoutMetrics: workout.workoutMetrics
             })
           })
         )
