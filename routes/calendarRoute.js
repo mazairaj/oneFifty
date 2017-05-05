@@ -45,10 +45,11 @@ router.post('/selectDay', function(req, res){
 router.post('/getMonth', function(req, res){
   var month = req.body.month
   console.log(month)
-
+  var monthWorkouts;
+  var teamWorkouts;
   Workout.find({ "date": { "$regex": month, "$options": "i" } },function(err,docs) {
       console.log("docs?", docs)
-      var monthWorkouts = new Array(31);
+      monthWorkouts = new Array(31);
       var date;
       var dateCopy;
       monthWorkouts.fill([])
@@ -59,7 +60,22 @@ router.post('/getMonth', function(req, res){
         dateCopy.push(workout);
         monthWorkouts[date - 1] = dateCopy;
       })
-      res.send(monthWorkouts)
+  }).then( () =>{
+    TeamWorkout.find({ "date": { "$regex": month, "$options": "i" } },function(err,docs) {
+        console.log("docs?", docs)
+        teamWorkouts = new Array(31);
+        var date;
+        var dateCopy;
+        teamWorkouts.fill([])
+        docs.forEach(function(workout){
+          date = new Date(workout.date);
+          date = date.getDate();
+          dateCopy = [].concat(teamWorkouts[(date-1)])
+          dateCopy.push(workout);
+          teamWorkouts[date - 1] = dateCopy;
+        })
+    })
+    res.send({monthWorkouts: monthWorkouts, teamWorkouts: teamWorkouts})
   })
 })
 

@@ -44,9 +44,11 @@ export function getMonthData(month){
     .then((response) => {
       return response.json()})
     .then((responseJson) => {
-      var workouts = responseJson
-      console.log("This is the one to look at", workouts)
-      dispatch(populateMonthData(workouts))
+      var monthWorkouts = responseJson.monthWorkouts;
+      var teamWorkouts = responseJson.teamWorkouts;
+      console.log("This is the one to look at", monthWorkouts)
+      dispatch(populateMonthData(monthWorkouts))
+      dispatch(populateTeamWorkouts(teamWorkouts))
     })
     .catch((err) => {
       console.log('error in populatedWorkouts -> ', err)
@@ -111,9 +113,19 @@ export function createTeamWorkout(workoutName, date){
         })
       })
     })
-    .then({
-      
-    })
+    .then(
+      fetch("https://morning-taiga-46107.herokuapp.com/postTeamWorkout",{
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          workoutName: workoutName,
+          date: date,
+          workouts: idArray
+        })
+      })
+    )
     .catch((err) => {
       console.log('error in populatedWorkouts -> ', err)
     });
@@ -123,6 +135,13 @@ function populateMonthData(workouts) {
   console.log("actions", workouts)
   return {
         type: 'POPULATE_MONTH_DATA',
+        workouts: workouts
+    };
+}
+function populateTeamWorkouts(workouts) {
+  console.log("actions", workouts)
+  return {
+        type: 'POPULATE_TEAM_WORKOUTS',
         workouts: workouts
     };
 }
