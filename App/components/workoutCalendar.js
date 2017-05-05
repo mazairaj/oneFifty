@@ -52,6 +52,7 @@ class WorkoutCalendar extends Component {
     var date = calendarState.date.toDateString();
     var month = date.slice(4,7);
     actions.getMonthData(month)
+    actions.findTeamWorkout(date);
   }
   componentWillUnmount(){
     const { actions, calendarState } = this.props;
@@ -92,6 +93,11 @@ class WorkoutCalendar extends Component {
     console.log(calendarState)
     actions.createTeamWorkout("2K", calendarState.date.toDateString())
   }
+  selectTeamWorkout(workouts, workoutName, date){
+    const {navigate} =this.props.navigation
+    // console.log("VAL", this.props)
+    navigate("WorkoutRanking", {workouts:[...workouts], workoutName:workoutName, date: date })
+  }
   render(){
     const {actions, calendarState} = this.props;
     const config = {
@@ -109,8 +115,7 @@ class WorkoutCalendar extends Component {
     //
     //
     //
-    console.log(calendarState.date.toDateString())
-    actions.findTeamWorkout(calendarState.date.toDateString());
+    var header = calendarState.teamWorkouts;
     const dataSource = ds.cloneWithRows(calendarState.populatedWorkouts[1])
     const dataSourcePrev = ds.cloneWithRows(calendarState.populatedWorkouts[0])
     const dataSourceNext = ds.cloneWithRows(calendarState.populatedWorkouts[2])
@@ -218,6 +223,19 @@ class WorkoutCalendar extends Component {
                           <ScrollView>
                             <ListView
                              dataSource = {dataSource}
+                             renderHeader ={() =>
+                               <ListItem>
+                                <Thumbnail style={{marginTop: 5, marginRight: 10, height: 36, width: 36, borderRadius: 18}} source={require('../../assets/image/Simulator.png')} />
+                                <Body>
+                                  <Text>{header.workoutName}</Text>
+                                  <Text>TEAM WORKOUT</Text>
+                                </Body>
+                                <Right style={{justifyContent: 'center'}}>
+                                  <TouchableOpacity onPress={this.selectTeamWorkout.bind(this, header.workouts, header.workoutName, header.date)}>
+                                  <Icon  name='rowing' />
+                                  </TouchableOpacity>
+                                </Right>
+                              </ListItem>}
                              renderRow={(val) =>
                                <ListItem>
                                 <Thumbnail style={{marginTop: 5, marginRight: 10, height: 36, width: 36, borderRadius: 18}} source={require('../../assets/image/Simulator.png')} />

@@ -16,8 +16,7 @@ export default function selectDay(state = {
   orderDates:[{},{},{}],
   date: date,
   dateClicked: false,
-  teamWorkoutDates: new Array(31),
-  individualWorkoutDates: [],
+  teamWorkouts: {workoutName: "CUSTOM WORKOUT", workouts:[], athleteName: "Team Workout"},
   monthWorkouts: new Array(31)
 }, action) {
     switch(action.type) {
@@ -67,9 +66,9 @@ export default function selectDay(state = {
           monthWorkouts: [...action.workouts]
         })
       case 'POPULATE_TEAM_WORKOUTS':
-      return Object.assign({}, state, {
-        teamWorkoutDates: [...action.workouts]
-      })
+        return Object.assign({}, state, {
+          teamWorkouts: action.workouts
+        })
       default:
         return state;
     }

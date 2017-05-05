@@ -151,6 +151,7 @@ export function findTeamWorkout(date){
     .then((responseJson) => {
       var workouts = responseJson
       console.log("This is the one to look at", workouts)
+      dispatch(populateTeamWorkouts(workouts))
     })
     .catch((err) => {
       console.log('error in findTeamWorkouts -> ', err)
@@ -164,8 +165,7 @@ function populateMonthData(workouts) {
         workouts: workouts
     };
 }
-function populateTeamWorkouts(workouts) {
-  console.log("actions", workouts)
+function populateTeamWorkouts(workouts) { 
   return {
         type: 'POPULATE_TEAM_WORKOUTS',
         workouts: workouts

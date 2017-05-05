@@ -5,7 +5,8 @@ import WorkoutForm from './workoutForm';
 import Main from './mainPage';
 import SelectWorkout from './selectWorkout';
 import WorkoutData from './workoutData';
-import TeamPage from './teamPage'
+import TeamPage from './teamPage';
+import WorkoutRanking from './rankingPage';
 
 //Navigation Called on First Tab
 export const Navigation = StackNavigator({
@@ -17,7 +18,9 @@ export const CalNav = StackNavigator({
   Calendar: {screen: WorkoutCalendar},
   WorkoutData: {
     screen: WorkoutData,
-  }
+  },
+  WorkoutRanking: {screen: WorkoutRanking}
+
 })
 
 export const WorkoutHistNav = StackNavigator({
