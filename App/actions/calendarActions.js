@@ -114,7 +114,8 @@ export function createTeamWorkout(workoutName, date){
         })
       })
     })
-    .then(
+    .then( () => {
+      console.log('trying to post TeamWorkout')
       fetch("https://morning-taiga-46107.herokuapp.com/postTeamWorkout",{
         method: 'POST',
         headers: {
@@ -126,7 +127,7 @@ export function createTeamWorkout(workoutName, date){
           workouts: idArray
         })
       })
-    )
+    })
     .catch((err) => {
       console.log('error in populatedWorkouts -> ', err)
     });
