@@ -2,8 +2,8 @@
 var express = require('express');
 var router = express.Router();
 // var _ = require('underscore')
-const Workout = require('../models/models').Workout;
 
+const {Workout, TeamWorkout} = require('../models/models');
 const bodyParser = require('body-parser')
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json())

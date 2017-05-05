@@ -149,6 +149,9 @@ export function findTeamWorkout(date){
       var workouts = responseJson
       console.log("This is the one to look at", workouts)
     })
+    .catch((err) => {
+      console.log('error in findTeamWorkouts -> ', err)
+    });
   }
 }
 function populateMonthData(workouts) {
