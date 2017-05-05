@@ -16,11 +16,10 @@ Benefits:
 2. Access to everyone's specific workouts
 3. More access to data analytics
 
-Team Social Feed:
+![](./assets/image/ranking.png)
+
 ![](./assets/image/TeamPage.png)
 
-Search past workouts:
 ![](./assets/image/Calendar.png)
 
-Post specific favorite Workouts:
 ![](./assets/image/FormType.png)
