@@ -63,5 +63,17 @@ router.post('/getMonth', function(req, res){
       res.send({monthWorkouts: monthWorkouts})
   })
 })
+router.post('/findTeamWorkout', function(req, res) {
+  var date = req.body.date.toDateString();
+  Workout.findOne({ "date": date})
+  .populate('workouts')
+  .exec(function(err, teamWorkout){
+    if (err) {
+        console.log("THIS IS AN ERROR! ", err)
+    } else {
+      res.send(teamWorkout)
+    }
+  })
+}
 
 module.exports = router;

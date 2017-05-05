@@ -133,6 +133,26 @@ export function createTeamWorkout(workoutName, date){
     });
   };
 }
+export function findTeamWorkout(date){
+  //Populate all of the workouts for a particular month
+  return dispatch => {
+    fetch("https://morning-taiga-46107.herokuapp.com/findTeamWorkout", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        date: date
+      })
+    })
+    .then((response) => {
+      return response.json()})
+    .then((responseJson) => {
+      var workouts = responseJson
+      console.log("This is the one to look at", workouts)
+    })
+  }
+}
 function populateMonthData(workouts) {
   console.log("actions", workouts)
   return {

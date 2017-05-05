@@ -105,6 +105,7 @@ class WorkoutCalendar extends Component {
     var date = calendarState.orderDates[1];
     var datePrev = calendarState.orderDates[0];
     var dateNext = calendarState.orderDates[2];
+    actions.findTeamWorkout(date);
     const dataSource = ds.cloneWithRows(calendarState.populatedWorkouts[1])
     const dataSourcePrev = ds.cloneWithRows(calendarState.populatedWorkouts[0])
     const dataSourceNext = ds.cloneWithRows(calendarState.populatedWorkouts[2])
