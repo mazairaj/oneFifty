@@ -48,7 +48,7 @@ export default function selectDay(state = {
       var orderDates;
       //define the proper ordering in the cycle of three cards
       if (index == 2) {
-        currOrder = [nextDate, prevDate, currDate, 2]
+        currOrder = [nextDate, prevDate, currDate, 2, ]
         orderDates = [{date: day + 1, day: getDay(action.date, + 1) }, {date: day - 1, day: getDay(action.date, - 1)}, {date: day , day:getDay(action.date, 0) }]
       } else if (index === 1) {
         currOrder = [prevDate, currDate, nextDate, 1]

@@ -106,11 +106,8 @@ class WorkoutCalendar extends Component {
     var datePrev = calendarState.orderDates[0];
     var dateNext = calendarState.orderDates[2];
     //This is ONLY FOR THE DEMO. DATE IS WRONG FOR EVERY OTHER DAY
-    //
-    //
-    //
     console.log(calendarState.date.toDateString())
-    actions.findTeamWorkout(date);
+    // actions.findTeamWorkout(date);
     const dataSource = ds.cloneWithRows(calendarState.populatedWorkouts[1])
     const dataSourcePrev = ds.cloneWithRows(calendarState.populatedWorkouts[0])
     const dataSourceNext = ds.cloneWithRows(calendarState.populatedWorkouts[2])
