@@ -30,7 +30,9 @@ router.post('/postWorkoutMongo', function(req, res){
 });
 router.post('/postTeamWorkout', function(req, res){
   var newTeamWorkout = new TeamWorkout ({
-    teamWorkout: teamWorkout
+    workoutName: workoutName,
+    date: date,
+    workouts: idArray
   })
   newTeamWorkout.save(function(err, teamWorkoutNew){
     if (err) {
