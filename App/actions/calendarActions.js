@@ -45,7 +45,7 @@ export function getMonthData(month){
     .then((responseJson) => {
       console.log(responseJson)
       var monthWorkouts = responseJson.monthWorkouts;
-      var teamWorkouts = responseJson.teamWorkouts;
+      // var teamWorkouts = responseJson.teamWorkouts;
       console.log("This is the one to look at", monthWorkouts)
       dispatch(populateMonthData(monthWorkouts))
       // dispatch(populateTeamWorkouts(teamWorkouts))
