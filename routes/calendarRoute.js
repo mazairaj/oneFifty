@@ -72,7 +72,7 @@ router.post('/findTeamWorkout', function(req, res) {
         console.log("THIS IS AN ERROR! ", err)
     } else {
       console.log("TEAM WORKOUT", teamWorkout)
-      res.send(teamWorkout)
+      res.json(teamWorkout)
     }
   })
 })
