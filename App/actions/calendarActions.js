@@ -144,7 +144,8 @@ export function findTeamWorkout(date){
       })
     })
     .then((response) => {
-      return response.json()})
+      return response.json()
+    })
     .then((responseJson) => {
       var workouts = responseJson
       console.log("This is the one to look at", workouts)
