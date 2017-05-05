@@ -37,6 +37,7 @@ router.post('/postTeamWorkout', function(req, res){
       console.log('error', err)
     } else {
       console.log('Nice, you created a file')
+      console.log(teamWorkoutNew)
       res.send(teamWorkoutNew);
     }
   })

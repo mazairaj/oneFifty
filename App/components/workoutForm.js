@@ -86,32 +86,32 @@ export default class TeamManager extends Component {
       var copy = Object.assign({}, {"name": name}, value);
       console.log("COPY", copy)
 
-      fetch("https://morning-taiga-46107.herokuapp.com/postWorkoutSpreadsheet", {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            workoutData: copy
-          })
-        })
-        .catch((err) => {
-          console.log('error in post to spreadsheet -> ', err)
-        });
-      // fetch("https://morning-taiga-46107.herokuapp.com/postWorkoutMongo",{
-      //   method: 'POST',
-      //   headers: {
-      //     "Content-Type": "application/json"
-      //   },
-      //   body: JSON.stringify({
-      //     name: name,
-      //     workoutName: params.workoutName,
-      //     date: date,
-      //     weight: copy.weight,
-      //     metricObjects: metricObjects
-      //
+      // fetch("https://morning-taiga-46107.herokuapp.com/postWorkoutSpreadsheet", {
+      //     method: 'POST',
+      //     headers: {
+      //       "Content-Type": "application/json"
+      //     },
+      //     body: JSON.stringify({
+      //       workoutData: copy
+      //     })
       //   })
-      // })
+      //   .catch((err) => {
+      //     console.log('error in post to spreadsheet -> ', err)
+      //   });
+      fetch("https://morning-taiga-46107.herokuapp.com/postWorkoutMongo",{
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: name,
+          workoutName: params.workoutName,
+          date: date,
+          weight: copy.weight,
+          metricObjects: metricObjects
+
+        })
+      })
     }
   }
   _filterData(value){

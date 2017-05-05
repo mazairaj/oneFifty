@@ -314,7 +314,7 @@ var styles = StyleSheet.create({
 });
 
 //map TeamPageState to Props
-//Allow dispatch to be called with provided actionCreators
+//Allow  to be called with provided actionCreators
 //connect State Props and Actions
 function mapStateToProps(state) {
     return {

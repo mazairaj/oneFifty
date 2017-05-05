@@ -60,7 +60,8 @@ router.post('/getMonth', function(req, res){
         dateCopy.push(workout);
         monthWorkouts[date - 1] = dateCopy;
       })
-  }).then( () =>{
+      return monthWorkouts;
+  }).then( (monthWorkouts) =>{
     TeamWorkout.find({ "date": { "$regex": month, "$options": "i" } },function(err,docs) {
         console.log("docs?", docs)
         teamWorkouts = new Array(31);

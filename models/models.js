@@ -65,7 +65,7 @@ var Workout = mongoose.model("Workout", workoutSchema);
 var TeamData = mongoose.model("TeamData", teamDataSchema);
 var WorkoutMetrics = mongoose.model("WorkoutMetrics", workoutMetricsSchema);
 var Post = mongoose.model("Post", postSchema);
-var TeamWorkout = mongoose.model("TeamWorkout", teamWorkoutSchema)
+var TeamWorkout = mongoose.model("TeamWorkout", teamWorkoutSchema);
 
 module.exports = {
   Athlete: Athlete,

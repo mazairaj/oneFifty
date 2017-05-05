@@ -44,11 +44,12 @@ export function getMonthData(month){
     .then((response) => {
       return response.json()})
     .then((responseJson) => {
-      var monthWorkouts = responseJson.monthWorkouts;
-      var teamWorkouts = responseJson.teamWorkouts;
-      console.log("This is the one to look at", monthWorkouts)
-      dispatch(populateMonthData(monthWorkouts))
-      dispatch(populateTeamWorkouts(teamWorkouts))
+      console.log(responseJson)
+      // var monthWorkouts = responseJson.monthWorkouts;
+      // var teamWorkouts = responseJson.teamWorkouts;
+      // console.log("This is the one to look at", monthWorkouts)
+      // dispatch(populateMonthData(monthWorkouts))
+      // dispatch(populateTeamWorkouts(teamWorkouts))
     })
     .catch((err) => {
       console.log('error in populatedWorkouts -> ', err)
