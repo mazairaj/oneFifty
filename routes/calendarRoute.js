@@ -2,12 +2,12 @@
 var express = require('express');
 var router = express.Router();
 // var _ = require('underscore')
-const Workout = require('../models/models').Workout;
 
+const {Workout, TeamWorkout} = require('../models/models');
 const bodyParser = require('body-parser')
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(bodyParser.json())
-
+//Searches database for three dates. No longer in use
 router.post('/selectDay', function(req, res){
   var dateSelect;
   var prevDate;
@@ -41,14 +41,15 @@ router.post('/selectDay', function(req, res){
     })
   })
 })
-
+//Get the data for the full month. Sort the date seletions in redux
 router.post('/getMonth', function(req, res){
   var month = req.body.month
   console.log(month)
-
+  var monthWorkouts;
+  var teamWorkouts;
   Workout.find({ "date": { "$regex": month, "$options": "i" } },function(err,docs) {
       console.log("docs?", docs)
-      var monthWorkouts = new Array(31);
+      monthWorkouts = new Array(31);
       var date;
       var dateCopy;
       monthWorkouts.fill([])
@@ -62,4 +63,18 @@ router.post('/getMonth', function(req, res){
       res.send(monthWorkouts)
   })
 })
+router.post('/findTeamWorkout', function(req, res) {
+  console.log(req.body.date)
+  TeamWorkout.findOne({ "date": req.body.date})
+  .populate('workouts')
+  .exec(function(err, teamWorkout){
+    if (err) {
+        console.log("THIS IS AN ERROR! ", err)
+    } else {
+      console.log("TEAM WORKOUT", teamWorkout)
+      res.json(teamWorkout)
+    }
+  })
+})
+
 module.exports = router;

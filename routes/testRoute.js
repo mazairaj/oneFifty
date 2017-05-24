@@ -9,9 +9,11 @@ const Workout = require('../models/models').Workout;
 var GoogleSpreadsheet = require('google-spreadsheet');
 var doc = new GoogleSpreadsheet('1EQivJ6AIqFxCCEvJVqw-34W3llXdrE4Qi9k_mjJgjco');
 var sheet;
+var metrics;
 var creds = require('../My_Project_Cred');
 var async = require('async')
 
+//Authenticates credentials
 doc.useServiceAccountAuth(creds, function(err, item){
   if (err) {
     console.log(err)
@@ -62,9 +64,9 @@ var addRowData = function(){
   console.log('ADD ROW')
   sheet.addRow({
     "name" : req.body.name,
-    "split1": req.body.split1,
-    "split2": req.body.split2,
-    "split3": req.body.split3,
+    "split1": req.body.piece1,
+    "split2": req.body.piece2,
+    "split3": req.body.piece3,
     "weight": req.body.weight
   }, function(err){
     if (err){
@@ -75,10 +77,11 @@ var addRowData = function(){
   })
 }
 
-
+//post information directly to spreadsheet
 router.post('/postWorkoutSpreadsheet', function(req, res){
   var data = req.body.workoutData
-  console.log("This is REQd", req.body)
+  console.log("This is REQd", data)
+  //async.series calls each function asynchronously in sequntial order
   async.series([
     function(callback) {
       doc.getInfo(function(err, info) {
@@ -92,7 +95,10 @@ router.post('/postWorkoutSpreadsheet', function(req, res){
     },
     function(callback) {
       console.log("<<<<<<<< Inside working cells >>>>>>")
-      sheet.setHeaderRow(['name', 'split1', 'split2', 'split3', 'weight'], function(err, done){
+      metrics = Object.keys(data);
+      metrics = [metrics[0], ...metrics.slice(2, metrics.length)]
+      console.log("METRICS", metrics)
+      sheet.setHeaderRow(metrics, function(err, done){
         if (err) {
           console.log(err)
         } else {
@@ -113,26 +119,24 @@ router.post('/postWorkoutSpreadsheet', function(req, res){
               console.log(rowData.name)
               index = i;
             }
-            rows[i].save();
+            // rows[i].save();
           });
           if (index) {
-            rows[index].del();
+            rows[index].del(function(err, result){
+              console.log("Rows", rows)
+              callback(null, 'callback')
+            });
+          } else {
+            console.log("Rows", rows)
+            callback(null, 'callback')
           }
         }
-        console.log("Rows", rows)
-        callback(null, 'callback')
 
       })
     },
     function(callback) {
       console.log('ADD ROW')
-      sheet.addRow({
-        "name" : data.name,
-        "split1": data.split1,
-        "split2": data.split2,
-        "split3": data.split3,
-        "weight": data.weight
-      }, function(err, rows){
+      sheet.addRow(data, function(err, rows){
         if (err){
           console.log(err)
         } else {
@@ -144,97 +148,29 @@ router.post('/postWorkoutSpreadsheet', function(req, res){
     }
   ])
 })
-// router.post('/test', function(req, res){
-//   async.series([
-//   function(callback) {
-//     doc.getInfo(function(err, info) {
-//       console.log("<<<<<<<< Inside Get INfo >>>>>>")
-//         console.log('Loaded doc: '+info.title+' by '+info.author.email);
-//         sheet = info.worksheets[0];
-//         console.log('sheet 1: '+sheet.title+' '+sheet.rowCount+'x'+sheet.colCount);      // do some stuff ...
-//       callback(null, 'one');
-//   })
-// },
-//     function(callback)
-//         // do some more stuff ...
-//         console.log("<<<<<<<< Inside working cells >>>>>>")
-//         sheet.setHeaderRow(['name', 'split1', 'split2', 'split3', 'weight'], function(err){
-//           if (err) {
-//             console.log(err)
-//           } else {
-//             console.log("Whatever")
-//             callback(null, 'two')
-//           }
-//         })
-//       },
-//       function (callback) {
-//         console.log('ADD ROW')
-//         sheet.addRow({
-//           "name" : req.body.name,
-//           "split1": req.body.split1,
-//           "split2": req.body.split2,
-//           "split3": req.body.split3,
-//           "weight": req.body.weight
-//         }, function(err){
-//           if (err){
-//             console.log(err)
-//           } else {
-//             callback(null, 'three')
-//           }
-//         })
-//       },
-//     function(callback){
-//       console.log("In Get Cells")
-//       sheet.getRows({offset: 1,
-//       limit: 20,
-//       orderby: 'weight'}, function(err, rows){
-//         if (err) {
-//           console.log(err)
-//         } else {
-//           console.log(rows)
-//           res.json(rows);
-//
-//         }
-//       })
-//     }
-//   ])
-// });
+router.get('/createTeamWorkout', function(req, res){
+  var rows;
 
-router.post('/createWorkout', function(req, res){
-  var workoutTitle = req.body.title;
-  var athleteName = req.body.athleteName;
-  var metricName1 = req.body.metricName1;
-  var metricName2 = req.body.metricName2;
-  var value1 = req.body.value1;
-  var value2 = req.body.value2;
-
-  var newWorkout = new Workout({
-    workoutName: workoutTitle,
-    athleteName: athleteName,
-    workoutMetrics: [
-      {
-        name: metricName1,
-        value: value1
-      },
-      {
-        name: metricName2,
-        value: value2
-      }
-    ]
-  })
-
-  newWorkout.save(function(err, workoutNew){
-    if (err) {
-      console.log('error has occur: ',  err)
-    } else {
-      console.log('Nice, you created a file')
-      console.log(workoutNew);
+  //async.series calls each function asynchronously in sequntial order
+  async.series([
+    function(callback) {
+      doc.getInfo(function(err, info) {
+        console.log("<<<<<<<< Inside Get INfo >>>>>>")
+        console.log('Loaded doc: '+info.title+' by '+info.author.email);
+        sheet = info.worksheets[0];
+        console.log('sheet 1: '+sheet.title+' '+sheet.rowCount+'x'+sheet.colCount);
+        console.log("INFO", info)      // do some stuff ...
+        callback(null, 'one');
+      })
+    },
+    function(callback){
+      console.log("In Get Cells")
+      sheet.getRows(function(err, rows){
+        console.log(rows)
+        res.send(rows)
+        callback(null, 'finished')
+      })
     }
-
-  }).then(() => {
-    var metrics = newWorkout.metricsObject;
-    console.log('Metrics', (metrics.split * 2.23))
-    res.send(newWorkout.metricsObject)
-  })
-});
+  ])
+})
 module.exports = router;

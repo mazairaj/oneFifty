@@ -19,12 +19,37 @@ var workoutSchema = new mongoose.Schema({
     }
   ]
 })
+var teamWorkoutSchema = new mongoose.Schema({
+  workoutName: String,
+  date: String,
+  workouts: [{type: mongoose.Schema.Types.ObjectId, ref: 'Workout'}]
+})
+var workoutMetricsSchema = new mongoose.Schema({
+  workoutName: String,
+  workoutMetrics: [
+    {
+    name: String,
+    }
+  ]
+})
 
 var teamDataSchema = new mongoose.Schema({
   teamName: String,
   teamPhoto: String,
   athletes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Athlete'}],
-  favoriteWorkouts: [String]
+  favoriteWorkouts: [{type: mongoose.Schema.Types.ObjectId, ref: 'WorkoutMetrics'}]
+})
+
+var postSchema = new mongoose.Schema({
+  name: String,
+  date: String,
+  profileImg: String,
+  postType: String,
+  cardImg: String,
+  bodyText: String,
+  likes: [{type: mongoose.Schema.Types.ObjectId, ref: 'Athlete'}],
+  //comments: [{type: mongoose.Schema.Types.ObjectId, ref: 'Comment'}]
+
 })
 
 workoutSchema.virtual('metricsObject').get(function () {
@@ -38,9 +63,15 @@ workoutSchema.virtual('metricsObject').get(function () {
 var Athlete = mongoose.model("Athlete", athleteSchema);
 var Workout = mongoose.model("Workout", workoutSchema);
 var TeamData = mongoose.model("TeamData", teamDataSchema);
+var WorkoutMetrics = mongoose.model("WorkoutMetrics", workoutMetricsSchema);
+var Post = mongoose.model("Post", postSchema);
+var TeamWorkout = mongoose.model("TeamWorkout", teamWorkoutSchema);
 
 module.exports = {
   Athlete: Athlete,
   Workout: Workout,
-  TeamData: TeamData
+  TeamData: TeamData,
+  workoutMetricsSchema,
+  Post: Post,
+  TeamWorkout: TeamWorkout
 }
